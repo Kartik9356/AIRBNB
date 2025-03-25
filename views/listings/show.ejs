@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <li><%= data._id %></li>
+      <li><%= data.title %></li>
+      <li><%= data.image %></li>
+      <li><%= data.description %></li>
+      <li><%= Number    (data.price).toLocaleString("en-IN") %></li>
+      <li><%= data.location %></li>
+      <li><%= data.country %></li>
+    </div>
+    <a href="/listings/<%= data._id %>/edit">edit</a>
+  </body>
+</html>

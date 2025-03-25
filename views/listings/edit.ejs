@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="/listings/<%= data._id %>/edit?_method=PATCH" method="post">
+      <input value="<%= data.title  %>" name="listings[title]" placeholder="title" type="text" />
+      <textarea name="listings[description]" placeholder="description" id=""> <%= data.description  %> </textarea>
+      <input  value="<%= data.image  %>"  name="listings[image]" placeholder="image url" type="text" />
+      <input value="<%= data.price  %>"  name="listings[price]" placeholder="price" type="number" />
+      <input value="<%= data.country  %>"  name="listings[country]" placeholder="country" type="text" />
+      <input value="<%= data.location  %>"  name="listings[location]" placeholder="location" type="text" />
+      <button type="submit">edit</button>
+    </form>
+  </body>
+</html>
