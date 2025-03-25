@@ -66,7 +66,16 @@ app.get("/listings/:id/edit", async (req, res) => {
   res.render("./listings/edit", { data });
 });
 
+app.patch("/listings/:id/edit", async (req, res) => {
+  console.log("HIT  patch: /listings:id/edit");
+  // let data=req.body.listings
+  // console.log(data)
+  let data = await listings.findByIdAndUpdate(req.params.id,{...req.body.listings})
+  // res.send(` listing data is ${data}`);
+  res.redirect(`/${req.params.id}`)
+});
 
+    
 
 
   
