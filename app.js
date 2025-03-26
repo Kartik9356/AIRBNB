@@ -41,7 +41,7 @@ app.get("/", async (req, res) => {
 });
 
 // show rout
-app.get("/:id", async (req, res) => {
+app.get("/show/:id", async (req, res) => {
   console.log("HIT '/show'");
   let data = await listings.findById(req.params.id);
   res.render("./listings/show", { data });
@@ -75,12 +75,32 @@ app.patch("/listings/:id/edit", async (req, res) => {
   res.redirect(`/${req.params.id}`)
 });
 
-    
+
+// deleting listing
+app.delete("/listing/:id",async(req,res)=>{
+  let data= await listings.findByIdAndDelete(req.params.id)
+  res.redirect("/")
+})
 
 
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // trigring server
 app.listen(3000, (req, res) => {
   console.log("server is running on port 3000");
 });   
-     
+      

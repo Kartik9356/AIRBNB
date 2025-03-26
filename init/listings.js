@@ -290,3 +290,6 @@ const sampleListings = [
     country: "Costa Rica",
   },
 ];
+
+
+module.exports =sampleListings;
