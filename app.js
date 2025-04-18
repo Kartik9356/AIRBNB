@@ -4,6 +4,7 @@ const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
 const methoodOverride = require("method-override");
+const ejsMate = require("ejs-mate")
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -12,6 +13,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methoodOverride("_method"));
+
+app.engine('ejs',ejsMate)
 
 
 // calling mongooes models
@@ -34,10 +37,15 @@ mongoCall();
 // routs
 
 app.get("/", async (req, res) => {
+  res.render("./listings/index");
+});
+
+// listings rout
+app.get("/listings", async (req, res) => {
   console.log("HIT '/'");
   let data = await listings.find({});
   // console.log(data)
-  res.render("./listings/index", { data });
+  res.render("./listings/listings", { data });
 });
 
 // show rout
@@ -72,7 +80,7 @@ app.patch("/listings/:id/edit", async (req, res) => {
   // console.log(data)
   let data = await listings.findByIdAndUpdate(req.params.id,{...req.body.listings})
   // res.send(` listing data is ${data}`);
-  res.redirect(`/${req.params.id}`)
+  res.redirect(`/show/${req.params.id}`)
 });
 
 

@@ -1,0 +1,15 @@
+.navbar{
+    height: 5rem;
+    width: 100%;
+}
+.fa-google{
+    font-size: 2.5rem;
+    color: #fe404d;
+}
+
+.nav-link{
+    color: black !important;
+}
+.footer{
+    margin-top: 1rem;
+}

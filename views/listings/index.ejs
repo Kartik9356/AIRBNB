@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+
+<%- layout('./layouts/boylerplate') -%>
+
 <body>
-    <h1>show rout</h1>
-    <% for (const list of data) { %>
-        <a href="/show/<%= list._id %>"><li> <%= list.title  %> </li></a>
-        <% } %>
-        <br>
+ <h1> this is my home page</h1>
 </body>
-</html>

@@ -1,0 +1,10 @@
+
+<%- layout('./layouts/boylerplate') -%>
+
+<body>
+    <h1>show rout</h1>
+    <% for (const list of data) { %>
+        <a href="/show/<%= list._id %>"><li> <%= list.title  %> </li></a>
+        <% } %>
+        <br>
+</body>

@@ -20,5 +20,4 @@ const schema = mongoose.Schema({
         country: String,  
 });
 
-console.log("module")
 module.exports = mongoose.model("listings",schema)

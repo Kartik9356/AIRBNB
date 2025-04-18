@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
+
+<% layout('./layouts/boylerplate') -%>
   <body>
     <form action="/listings/<%= data._id %>/edit?_method=PATCH" method="post">
       <input value="<%= data.title  %>" name="listings[title]" placeholder="title" type="text" />
@@ -13,7 +8,6 @@
       <input value="<%= data.price  %>"  name="listings[price]" placeholder="price" type="number" />
       <input value="<%= data.country  %>"  name="listings[country]" placeholder="country" type="text" />
       <input value="<%= data.location  %>"  name="listings[location]" placeholder="location" type="text" />
-      <button type="submit">edit</button>
+      <button type="submit">Done</button>
     </form>
   </body>
-</html>
