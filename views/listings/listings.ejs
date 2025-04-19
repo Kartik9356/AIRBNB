@@ -1,23 +1,72 @@
 <%- layout('./layouts/boylerplate') -%>
 
+<style>
+  a {
+    color: black;
+    text-decoration: none;
+  }
+  .card-img {
+    border-radius: 15px;
+    width: 100%;
+    height: 270px;
+    /* overflow: hidden; */
+  }
+  .cards {
+    margin: 20px auto;
+    width: 90vw;
+    display: grid;
+    /* grid-template-columns:25% 25% 25% 25%; */
+    grid-template-columns: repeat(4, 24%);
+    column-gap: 15px;
+    row-gap: 15px;
+  }
+  .card-link {
+    /* background-color: green; */
+    padding: 2px;
+    height: 350px;
+    border-radius: 15px;
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+    height: 60px;
+  }
+  .card-body {
+    margin: 5px 10px;
+  }
+  .card-link:hover {
+    cursor: pointer;
+    background-color: #00000009;
+    box-shadow: 0px 0px 30px rgb(116, 116, 116);
+  }
+
+  @media screen and (max-width: 450px) {
+    .cards {
+    width: 96vw;
+    grid-template-columns: repeat(1, 95%);
+    column-gap: 15px;
+    row-gap: 15px;
+  }
+  }
+</style>
+
 <body>
-  <h1>show rout</h1>
-  <div class="row row-col-lg-4 row-col-sm-3" style="justify-content: space-between; gap: 10px;">
+  <div class="cards">
     <% for (const list of data) { %>
-    <div class="card p-2" style="width: 17rem">
-      <img
-        class="card-img-top"
-        style="height: 9rem; object-fit: cover"
-        src="<%= list.image  %>"
-        alt="Card image cap"
-      />
-      <div class="card-body" style="position:relative; margin-top: 5px; ">
-        <p class="card-text">
-          <b><%= list.title %> </b><br />
-         <p style="position:absolute; bottom: 2px;"> &#8377;<%= Number(list.price).toLocaleString("en-IN") %> / Night</p>
-        </p>
+    <a class="card-link" href="/show/<%= list._id %>">
+      <div class="card">
+        <img class="card-img" src="<%= list.image  %>" alt="Card image cap" />
+        <div class="card-body">
+          <p class="card-text"><b><%= list.title %> </b><br /></p>
+          <p>
+            <b> &#8377;<%= Number(list.price).toLocaleString("en-IN") %> </b
+            >/night
+          </p>
+        </div>
       </div>
-    </div>
+    </a>
     <% } %>
     <br />
   </div>
