@@ -1,15 +1,120 @@
-
-  
 <% layout('./layouts/boylerplate') -%>
-  
-  <body>
-    <form action="/listings/create" method="post">
-      <input name="listings[title]" placeholder="title" type="text" />
-      <textarea name="listings[description]" placeholder="description" ></textarea>
-      <input name="listings[image]" placeholder="image url" type="text" />
-      <input name="listings[price]" placeholder="price" type="number" />
-      <input name="listings[country]" placeholder="country" type="text" />
-      <input name="listings[location]" placeholder="location" type="text" />
-      <button type="submit">submit</button>
-    </form>
-  </body>
+
+<style>
+  form {
+    margin: auto;
+    /* background-color: red; */
+    width: 90%;
+  }
+  .input{
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: center;
+  }
+  input,
+  textarea {
+    border-radius: 3px;
+    outline: none;
+    padding: 3px 5px;
+    border: 1px solid black;
+    width: 100%;
+  }
+  input {
+    height: 30px;
+  }
+  form > *{
+    /* background-color: red; */
+    margin: 10px 0;
+  }
+  label{
+    margin-bottom: 5px;
+  }
+  h2{
+    margin-top: 15px;
+  }
+  .submit{
+    background-color: #51a949;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+  }
+  .group{
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 25px;
+  }
+  .group .input{
+    width: 50%;
+  }
+</style>
+
+<body>
+  <h2>Fill Details</h2>
+  <form action="/listings/create" method="post">
+    <div class="input">
+      <label for="title">Title<sup>*</sup></label>
+      <input
+        required
+        id="title"
+        name="listings[title]"
+        placeholder="Title"
+        type="text"
+      />
+    </div>
+    <div class="input">
+      <label for="desc">Description</label>
+      <textarea
+        rows="5"
+        id="desc"
+        name="listings[description]"
+        placeholder="Description"
+      ></textarea>
+    </div>
+    <div class="input">
+      <label for="image">Image URL</label>
+      <input
+        id="image"
+        name="listings[image]"
+        placeholder="URL"
+        type="text"
+      />
+    </div>
+    <div class="group">
+      <div class="input">
+        <label for="price">Price<sup>*</sup></label>
+        <input
+        required
+          id="price"
+          name="listings[price]"
+          placeholder="0000"
+          type="number"
+        />
+      </div>
+      <div class="input">
+        <label for="country">Country<sup>*</sup></label>
+        <input
+        required
+          id="country"
+          name="listings[country]"
+          placeholder="ex, India"
+          type="text"
+        />
+      </div>
+    </div>
+    <div class="input">
+      <label for="location">location<sup>*</sup></label>
+      <input
+      required
+        id="location"
+        name="listings[location]"
+        placeholder="location"
+        type="text"
+      />
+    </div>
+    <button class="submit" type="submit">Submit</button>
+  </form>
+</body>
