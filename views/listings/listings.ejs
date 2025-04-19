@@ -1,10 +1,24 @@
-
 <%- layout('./layouts/boylerplate') -%>
 
 <body>
-    <h1>show rout</h1>
+  <h1>show rout</h1>
+  <div class="row row-col-lg-4 row-col-sm-3" style="justify-content: space-between; gap: 10px;">
     <% for (const list of data) { %>
-        <a href="/show/<%= list._id %>"><li> <%= list.title  %> </li></a>
-        <% } %>
-        <br>
+    <div class="card p-2" style="width: 17rem">
+      <img
+        class="card-img-top"
+        style="height: 9rem; object-fit: cover"
+        src="<%= list.image  %>"
+        alt="Card image cap"
+      />
+      <div class="card-body" style="position:relative; margin-top: 5px; ">
+        <p class="card-text">
+          <b><%= list.title %> </b><br />
+         <p style="position:absolute; bottom: 2px;"> &#8377;<%= Number(list.price).toLocaleString("en-IN") %> / Night</p>
+        </p>
+      </div>
+    </div>
+    <% } %>
+    <br />
+  </div>
 </body>

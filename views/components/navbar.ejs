@@ -1,18 +1,31 @@
-<nav class="navbar navbar-expand-sm bg-body-tertiary sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">
-      <i class="fa-brands fa-google"></i>
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/">Home</a>
-        <a class="nav-link" href="/listings">All Listings</a>
-        <a class="nav-link" href="/listings/create">Add New Listing</a>
-      </div>
-    </div>
+<style>
+  .fa-google {
+    font-size: 2.5rem;
+    color: #fe404d;
+    margin: 0 10px;
+  }
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 213, 255, 0.718);
+    height: 4rem;
+    width: 100%;
+  }
+  .nav-item{
+    text-decoration: none;
+    color: black;
+    margin: 0 10px;
+  }
+</style>
+
+<nav class="navbar">
+  <a class="navbar-brand" href="/">
+    <i class="fa-brands fa-google"></i>
+  </a>
+  <div class="nav-items">
+    <a class="nav-item" href="/">Home</a>
+    <a class="nav-item" href="/listings">Listings</a>
+    <a class="nav-item" href="/listings/create">Add New Listing</a>
   </div>
 </nav>
-
