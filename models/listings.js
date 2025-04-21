@@ -15,7 +15,7 @@ const schema = mongoose.Schema({
                 ? "https://marketplace.canva.com/EAGYna2-QZ8/1/0/1600w/canva-brown-and-black-minimalist-hotel-presentation-SqQPhkMUHTQ.jpg"
                 : v,
         },
-        price: String,
+        price: Number,
         location: String,
         country: String,  
 });
