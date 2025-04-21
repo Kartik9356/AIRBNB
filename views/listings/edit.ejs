@@ -68,6 +68,7 @@
     <div class="input">
       <label for="desc">Description</label>
       <textarea
+        required
         rows="5"
         id="desc"
         name="listings[description]"
@@ -78,6 +79,7 @@
       <label for="image">Image URL</label>
       <input
       value="<%= data.image  %>"
+        required
         id="image"
         name="listings[image]"
         placeholder="URL"
