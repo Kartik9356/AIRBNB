@@ -120,7 +120,9 @@ app.all("*",(req,res,next)=>{
 
 // error handling
 app.use((err,req,res,next)=>{
-  res.status(500).send("something went wrong")
+  let {status=500,message="something went wrong"}=err;
+  // res.status(status).send(message)
+  res.render("./listings/error", { status,message });
   next(err)
 })
 

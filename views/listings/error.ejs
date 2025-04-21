@@ -1,0 +1,35 @@
+<%- layout('./layouts/boylerplate') -%>
+
+<style>
+    .code {
+        font-size: 2em;
+        color: red;
+    }
+    .message {
+        font-size: 1.5em;
+        color: black;
+    }.home {
+        display: inline-block;
+        margin-top: 40px;
+        font-size: 1.2em;
+        color: blue;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #f0f0f0;
+    }
+    .home:hover {
+        background-color: #e0e0e0;
+    }
+    .container {
+        padding: 20px;
+        min-height: max-content;
+        height: 100vh;
+    }
+</style>
+
+<body>
+    <h1 class="code"><%= status %></h1>
+    <p class="message"><%= message %></p>
+    <a class="home" href="/">Return to Home</a>
+</body>
