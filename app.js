@@ -23,7 +23,6 @@ const listings = require("./models/listings.js");
 // calling utlis
 const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
-const { wrap } = require("module");
 
 // calling mongoose to connect server
 function mongoCall() {

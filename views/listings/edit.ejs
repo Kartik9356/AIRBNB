@@ -53,7 +53,7 @@
 
 <body>
   <h2>Edit Details</h2>
-  <form action="/listings/create" method="post">
+  <form action="/listings/<%= data._id %>/edit?_method=PATCH" method="post">
     <div class="input">
       <label for="title">Title<sup>*</sup></label>
       <input
@@ -79,7 +79,6 @@
       <label for="image">Image URL</label>
       <input
       value="<%= data.image  %>"
-        required
         id="image"
         name="listings[image]"
         placeholder="URL"
