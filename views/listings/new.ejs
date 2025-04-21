@@ -6,7 +6,7 @@
     /* background-color: red; */
     width: 90%;
   }
-  .input{
+  .input {
     display: flex;
     flex-direction: column;
     align-items: baseline;
@@ -23,23 +23,23 @@
   input {
     height: 30px;
   }
-  form > *{
+  form > * {
     /* background-color: red; */
     margin: 10px 0;
   }
-  label{
+  label {
     margin-bottom: 5px;
   }
-  h2{
+  h2 {
     margin-top: 15px;
   }
-  .submit{
+  .submit {
     background-color: #51a949;
     padding: 5px 10px;
     border-radius: 5px;
     border: none;
   }
-  .group{
+  .group {
     /* background-color: red; */
     display: flex;
     align-items: center;
@@ -47,7 +47,7 @@
     width: 100%;
     gap: 25px;
   }
-  .group .input{
+  .group .input {
     width: 50%;
   }
 </style>
@@ -68,6 +68,7 @@
     <div class="input">
       <label for="desc">Description</label>
       <textarea
+        required
         rows="5"
         id="desc"
         name="listings[description]"
@@ -76,18 +77,13 @@
     </div>
     <div class="input">
       <label for="image">Image URL</label>
-      <input
-        id="image"
-        name="listings[image]"
-        placeholder="URL"
-        type="text"
-      />
+      <input id="image" name="listings[image]" placeholder="URL" type="text" />
     </div>
     <div class="group">
       <div class="input">
         <label for="price">Price<sup>*</sup></label>
         <input
-        required
+          required
           id="price"
           name="listings[price]"
           placeholder="0000"
@@ -97,7 +93,7 @@
       <div class="input">
         <label for="country">Country<sup>*</sup></label>
         <input
-        required
+          required
           id="country"
           name="listings[country]"
           placeholder="ex, India"
@@ -108,7 +104,7 @@
     <div class="input">
       <label for="location">location<sup>*</sup></label>
       <input
-      required
+        required
         id="location"
         name="listings[location]"
         placeholder="location"
