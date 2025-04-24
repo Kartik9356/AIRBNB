@@ -16,8 +16,8 @@ app.use(methoodOverride("_method"));
 
 app.engine("ejs", ejsMate);
 
-// calling mongooes models
-const listings = require("./models/listings.js");
+// calling mongooes models and their mongoose middlewares
+const { listings } = require("./models/listings.js");
 const review = require("./models/review.js");
 
 // calling utlis
@@ -78,7 +78,6 @@ app.get(
   wrapAsync(async (req, res, next) => {
     console.log("HIT '/'");
     let data = await listings.find({});
-    // console.log(data)
     res.render("./listings/listings", { data });
   })
 );
@@ -88,7 +87,7 @@ app.get(
   "/show/:id",
   wrapAsync(async (req, res, next) => {
     console.log("HIT '/show'");
-    let data = await listings.findById(req.params.id);
+    let data = await listings.findById(req.params.id).populate("reviews");
     if (!data) {
       next(new expressError(400, "Enter valid data"));
     }
@@ -141,13 +140,16 @@ app.patch(
 );
 
 // deleting listing
-app.delete("/listing/:id", async (req, res, next) => {
-  let data = await listings.findByIdAndDelete(req.params.id);
-  if (!data) {
-    next(new expressError(400, "data not found"));
-  }
-  res.redirect("/");
-});
+app.delete(
+  "/listing/:id",
+  wrapAsync(async (req, res, next) => {
+    let data = await listings.findOneAndDelete({ _id: req.params.id });
+    if (!data) {
+      next(new expressError(400, "data not found"));
+    }
+    res.redirect("/");
+  })
+);
 
 // adding review
 app.post(
@@ -164,11 +166,26 @@ app.post(
   })
 );
 
+// deleting review
+app.delete(
+  "/listing/:Lid/review/:Rid",
+  wrapAsync(async (req, res, next) => {
+    let { Lid, Rid } = req.params;
+    let rev = await review.findByIdAndDelete(Rid);
+    let data = await listings.findByIdAndUpdate(Lid, {
+      $pull: { reviews: Rid },
+    });
+    console.log(rev, data);
+    res.redirect(`/show/${Lid}`);
+  })
+);
+
+// rout to handle non-existing url's
 app.all("*", (req, res, next) => {
   next(new expressError(404, "page not found"));
 });
 
-// error handling
+// error handling middleware
 app.use((err, req, res, next) => {
   let { status = 500, message = "something went wrong" } = err;
   // res.status(status).send(message)

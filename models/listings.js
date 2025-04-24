@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const { type } = require("../utils/schema");
+const review = require("./review");
 
-const reviewSchema = mongoose.Schema({
+const listingSchema = mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -19,12 +19,21 @@ const reviewSchema = mongoose.Schema({
   price: Number,
   location: String,
   country: String,
-  reviews:[
+  reviews: [
     {
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"review"
-    }
-  ]
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "review",
+    },
+  ],
 });
 
-module.exports = mongoose.model("listings", reviewSchema);
+// middleware to delete all reviews of listing
+listingSchema.post("findOneAndDelete", async (listing) => {
+  if (listing.reviews.length) {
+    await review.deleteMany({ _id: { $in: listing.reviews } });
+  }
+});
+
+const listings = mongoose.model("listings", listingSchema);
+
+module.exports = { listings };

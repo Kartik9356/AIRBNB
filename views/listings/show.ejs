@@ -1,7 +1,7 @@
 <% layout('./layouts/boylerplate') -%>
 
 <style>
-  .container{
+  .container {
     margin: 10px auto;
   }
   .main {
@@ -51,21 +51,50 @@
     gap: 5px;
     margin-left: auto;
   }
-  #comment{
+  #comment {
     padding: 5px;
   }
-  .ratingSubmit{
+  .ratingSubmit {
     width: max-content;
     padding: 5px 10px;
     background-color: green;
     color: white;
     border-radius: 5px;
     border: none;
-    &:hover{
+    &:hover {
       cursor: pointer;
       transform: scale(1.05);
-
     }
+  }
+  .reviews {
+    display: grid;
+    grid-template-columns: repeat(2, 2fr);
+    gap: 10px;
+  }
+  h2 {
+    margin: 15px 0;
+  }
+  .review {
+    border-radius: 5px;
+    border: 1px solid rgb(137, 137, 137);
+    padding: 10px;
+  }
+  .review :first-child {
+    margin-bottom: 5px;
+  }
+  .review :last-child {
+    margin-top: 3px;
+  }
+  .deleteButtton {
+    background-color: rgba(0, 0, 255, 0.532);
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 5px 10px;
+  }
+  .deleteButtton:hover {
+    cursor: pointer;
+    transform: scale(1.05);
   }
 </style>
 
@@ -85,9 +114,8 @@
       <form action="/listing/<%= data._id %>?_method=DELETE" method="post">
         <button class="delete">delete</button>
       </form>
-
     </div>
-    <hr>
+    <hr />
     <form
       class="ratingForm"
       action="/listing/<%= data._id %>/review"
@@ -96,8 +124,30 @@
       <label for="rating">Rating</label>
       <input type="range" name="review[rating]" min="1" max="5" required />
       <label for="comment">Comment</label>
-      <textarea name="review[comment]" required rows="4" id="comment"></textarea>
+      <textarea
+        name="review[comment]"
+        required
+        rows="4"
+        id="comment"
+      ></textarea>
       <button type="submit" class="ratingSubmit">submit</button>
     </form>
+    <h2>Reviews</h2>
+    <div class="reviews">
+      <% if (data.reviews.length > 0) { %> <% data.reviews.forEach(element => {
+      %>
+      <div class="review">
+        <p><b> <%= "kartik biradar" %> </b></p>
+        <p><%= element.comment %></p>
+        <p>Rating: <b><%= element.rating %></b> stars</p>
+        <form
+          action="/listing/<%= data._id%>/review/<%= element._id%>?_method=delete"
+          method="post"
+        >
+          <button class="deleteButtton">Delete</button>
+        </form>
+      </div>
+      <% }); %> <% } %>
+    </div>
   </div>
 </body>
