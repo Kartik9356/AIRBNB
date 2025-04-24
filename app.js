@@ -18,11 +18,12 @@ app.engine("ejs", ejsMate);
 
 // calling mongooes models
 const listings = require("./models/listings.js");
+const review = require("./models/review.js");
 
 // calling utlis
 const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
-const listingSchema = require("./utils/schema.js");
+const { listingSchema, reviewSchema } = require("./utils/schema.js");
 
 // calling mongoose to connect server
 function mongoCall() {
@@ -46,6 +47,15 @@ app.use((req, res, next) => {
 // middleware for schema validatoin at backend
 function validateListing(req, res, next) {
   let { error } = listingSchema.validate(req.body);
+  if (error) {
+    next(new expressError(403, error.details[0].message));
+  } else {
+    next();
+  }
+}
+
+function validateReview(req, res, next) {
+  let { error } = reviewSchema.validate(req.body);
   if (error) {
     next(new expressError(403, error.details[0].message));
   } else {
@@ -138,6 +148,21 @@ app.delete("/listing/:id", async (req, res, next) => {
   }
   res.redirect("/");
 });
+
+// adding review
+app.post(
+  "/listing/:id/review",
+  validateReview,
+  wrapAsync(async (req, res, next) => {
+    let list = await listings.findOne({ _id: req.params.id });
+
+    let data = await review.create(req.body.review);
+
+    list.reviews.push(data);
+    list = await list.save();
+    res.redirect(`/show/${req.params.id}`);
+  })
+);
 
 app.all("*", (req, res, next) => {
   next(new expressError(404, "page not found"));

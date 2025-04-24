@@ -1,6 +1,9 @@
 <% layout('./layouts/boylerplate') -%>
 
 <style>
+  .container{
+    margin: 10px auto;
+  }
   .main {
     margin: auto;
     width: 90%;
@@ -41,6 +44,29 @@
     justify-content: flex-start;
     gap: 10px;
   }
+  .ratingForm {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: auto;
+  }
+  #comment{
+    padding: 5px;
+  }
+  .ratingSubmit{
+    width: max-content;
+    padding: 5px 10px;
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    &:hover{
+      cursor: pointer;
+      transform: scale(1.05);
+
+    }
+  }
 </style>
 
 <body>
@@ -52,13 +78,26 @@
       <b>&#8377;<%= Number (data.price).toLocaleString("en-IN") %></b>/night
     </p>
     <p class="desc"><%= data.description %></p>
-    
+
     <div class="flex">
       <a class="edit" href="/listings/<%= data._id %>/edit">edit</a>
-    <br />
-    <form action="/listing/<%= data._id %>?_method=DELETE" method="post">
-      <button class="delete">delete</button>
+      <br />
+      <form action="/listing/<%= data._id %>?_method=DELETE" method="post">
+        <button class="delete">delete</button>
+      </form>
+
+    </div>
+    <hr>
+    <form
+      class="ratingForm"
+      action="/listing/<%= data._id %>/review"
+      method="post"
+    >
+      <label for="rating">Rating</label>
+      <input type="range" name="review[rating]" min="1" max="5" required />
+      <label for="comment">Comment</label>
+      <textarea name="review[comment]" required rows="4" id="comment"></textarea>
+      <button type="submit" class="ratingSubmit">submit</button>
     </form>
-  </div>
   </div>
 </body>
