@@ -17,7 +17,7 @@ app.use(methoodOverride("_method"));
 app.engine("ejs", ejsMate);
 
 // calling mongooes models and their mongoose middlewares
-const { listings } = require("./models/listings.js");
+const  listing  = require("./models/listing.js");
 const review = require("./models/review.js");
 
 // calling utlis
@@ -74,34 +74,22 @@ app.get(
 
 // listings rout
 app.get(
-  "/listings",
+  "/listing",
   wrapAsync(async (req, res, next) => {
     console.log("HIT '/'");
-    let data = await listings.find({});
+    let data = await listing.find({});
     res.render("./listings/listings", { data });
   })
 );
 
-// show rout
-app.get(
-  "/show/:id",
-  wrapAsync(async (req, res, next) => {
-    console.log("HIT '/show'");
-    let data = await listings.findById(req.params.id).populate("reviews");
-    if (!data) {
-      next(new expressError(400, "Enter valid data"));
-    }
-    res.render("./listings/show", { data });
-  })
-);
 
 // adding data
-app.get("/listings/create", (req, res) => {
+app.get("/listing/create", (req, res) => {
   res.render("./listings/new");
 });
 
 app.post(
-  "/listings/create",
+  "/listing/create",
   validateListing,
   wrapAsync(async (req, res, next) => {
     console.log(req.body.listings);
@@ -111,12 +99,25 @@ app.post(
   })
 );
 
+// show rout
+app.get(
+  "/listing/:id",
+  wrapAsync(async (req, res, next) => {
+    console.log("HIT '/listing'");
+    let data = await listing.findById(req.params.id).populate("reviews");
+    if (!data) {
+      next(new expressError(400, "Enter valid data"));
+    }
+    res.render("./listings/show", { data });
+  })
+);
+
 // editing data
 app.get(
-  "/listings/:id/edit",
+  "/listing/:id/edit",
   wrapAsync(async (req, res, next) => {
     console.log("HIT : /listings:id/edit");
-    let data = await listings.findById(req.params.id);
+    let data = await listing.findById(req.params.id);
     if (!data) {
       next(new expressError(400, "data not found"));
     }
@@ -125,17 +126,17 @@ app.get(
 );
 
 app.patch(
-  "/listings/:id/edit",
+  "/listing/:id/edit",
   validateListing,
   wrapAsync(async (req, res, next) => {
-    console.log("HIT  patch: /listings:id/edit");
-    let data = await listings.findByIdAndUpdate(req.params.id, {
+    console.log("HIT  patch: /listing:id/edit");
+    let data = await listing.findByIdAndUpdate(req.params.id, {
       ...req.body.listings,
     });
     if (!data) {
       next(new expressError(400, "data not found"));
     }
-    res.redirect(`/show/${req.params.id}`);
+    res.redirect(`/listing/${req.params.id}`);
   })
 );
 
@@ -143,7 +144,7 @@ app.patch(
 app.delete(
   "/listing/:id",
   wrapAsync(async (req, res, next) => {
-    let data = await listings.findOneAndDelete({ _id: req.params.id });
+    let data = await listing.findOneAndDelete({ _id: req.params.id });
     if (!data) {
       next(new expressError(400, "data not found"));
     }
@@ -156,13 +157,13 @@ app.post(
   "/listing/:id/review",
   validateReview,
   wrapAsync(async (req, res, next) => {
-    let list = await listings.findOne({ _id: req.params.id });
+    let list = await listing.findOne({ _id: req.params.id });
 
     let data = await review.create(req.body.review);
 
     list.reviews.push(data);
     list = await list.save();
-    res.redirect(`/show/${req.params.id}`);
+    res.redirect(`/listing/${req.params.id}`);
   })
 );
 
@@ -172,11 +173,11 @@ app.delete(
   wrapAsync(async (req, res, next) => {
     let { Lid, Rid } = req.params;
     let rev = await review.findByIdAndDelete(Rid);
-    let data = await listings.findByIdAndUpdate(Lid, {
+    let data = await listing.findByIdAndUpdate(Lid, {
       $pull: { reviews: Rid },
     });
     console.log(rev, data);
-    res.redirect(`/show/${Lid}`);
+    res.redirect(`/listing/${Lid}`);
   })
 );
 

@@ -109,7 +109,7 @@
     <p class="desc"><%= data.description %></p>
 
     <div class="flex">
-      <a class="edit" href="/listings/<%= data._id %>/edit">edit</a>
+      <a class="edit" href="/listing/<%= data._id %>/edit">edit</a>
       <br />
       <form action="/listing/<%= data._id %>?_method=DELETE" method="post">
         <button class="delete">delete</button>
