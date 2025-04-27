@@ -1,3 +1,4 @@
+// basic template
 const express = require("express");
 const router = express.Router();
 
@@ -5,7 +6,10 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const expressError = require("../utils/expressError.js");
 const { listingSchema, reviewSchema } = require("../utils/schema.js");
-const { listing } = require("../models/listing.js");
+
+// calling mongooes models and their mongoose middlewares
+const  listing  = require("../models/listing.js");
+const review = require("../models/review.js");
 
 // middleware for schema validatoin at backend
 function validateListing(req, res, next) {
@@ -17,49 +21,47 @@ function validateListing(req, res, next) {
   }
 }
 
-// listings rout
+// routs with /listing + following routs
 router.get(
-  "/listing",
+  "/",
   wrapAsync(async (req, res, next) => {
-    console.log("HIT home rout");
     let data = await listing.find({});
-    res.render("./listings/listings.ejs", { data });
+    res.render("./listings/listings", { data });
   })
 );
 
-// show rout
-router.get(
-  "/listing/:id",
-  wrapAsync(async (req, res, next) => {
-    let data = await listing.findById(req.params.id).populate("reviews");
-    if (!data) {
-      next(new expressError(400, "Enter valid data"));
-    }
-    res.render("./listing/show", { data });
-  })
-);
 
 // adding data
-router.get("/listing/create", (req, res) => {
+router.get("/create", (req, res) => {
   res.render("./listings/new");
 });
 
 router.post(
-  "/listing/create",
+  "/create",
   validateListing,
   wrapAsync(async (req, res, next) => {
-    console.log(req.body.listings);
     let data = listings(req.body.listings);
     await data.save();
     res.redirect("/");
   })
 );
 
+// show rout
+router.get(
+  "/:id",
+  wrapAsync(async (req, res, next) => {
+    let data = await listing.findById(req.params.id).populate("reviews");
+    if (!data) {
+      next(new expressError(400, "Enter valid data"));
+    }
+    res.render("./listings/show", { data });
+  })
+);
+
 // editing data
 router.get(
-  "/listing/:id/edit",
+  "/:id/edit",
   wrapAsync(async (req, res, next) => {
-    console.log("HIT : /listings:id/edit");
     let data = await listing.findById(req.params.id);
     if (!data) {
       next(new expressError(400, "data not found"));
@@ -69,23 +71,22 @@ router.get(
 );
 
 router.patch(
-  "/listing/:id/edit",
+  "/:id/edit",
   validateListing,
   wrapAsync(async (req, res, next) => {
-    console.log("HIT  patch: /listings:id/edit");
     let data = await listing.findByIdAndUpdate(req.params.id, {
       ...req.body.listings,
     });
     if (!data) {
       next(new expressError(400, "data not found"));
     }
-    res.redirect(`/show/${req.params.id}`);
+    res.redirect(`./listings/${req.params.id}`);
   })
 );
 
 // deleting listing
 router.delete(
-  "/listing/:id",
+  "/:id",
   wrapAsync(async (req, res, next) => {
     let data = await listing.findOneAndDelete({ _id: req.params.id });
     if (!data) {
@@ -95,4 +96,4 @@ router.delete(
   })
 );
 
-module.exports = router;
+module.exports = router

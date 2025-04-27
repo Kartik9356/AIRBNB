@@ -16,8 +16,12 @@ app.use(methoodOverride("_method"));
 
 app.engine("ejs", ejsMate);
 
+// calling routes
+const listings = require("./routes/listings.js");
+const reviews = require("./routes/reviews.js");
+
 // calling mongooes models and their mongoose middlewares
-const  listing  = require("./models/listing.js");
+const listing = require("./models/listing.js");
 const review = require("./models/review.js");
 
 // calling utlis
@@ -44,25 +48,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// middleware for schema validatoin at backend
-function validateListing(req, res, next) {
-  let { error } = listingSchema.validate(req.body);
-  if (error) {
-    next(new expressError(403, error.details[0].message));
-  } else {
-    next();
-  }
-}
-
-function validateReview(req, res, next) {
-  let { error } = reviewSchema.validate(req.body);
-  if (error) {
-    next(new expressError(403, error.details[0].message));
-  } else {
-    next();
-  }
-}
-
 // routs
 
 app.get(
@@ -73,113 +58,10 @@ app.get(
 );
 
 // listings rout
-app.get(
-  "/listing",
-  wrapAsync(async (req, res, next) => {
-    console.log("HIT '/'");
-    let data = await listing.find({});
-    res.render("./listings/listings", { data });
-  })
-);
-
-
-// adding data
-app.get("/listing/create", (req, res) => {
-  res.render("./listings/new");
-});
-
-app.post(
-  "/listing/create",
-  validateListing,
-  wrapAsync(async (req, res, next) => {
-    console.log(req.body.listings);
-    let data = listings(req.body.listings);
-    await data.save();
-    res.redirect("/");
-  })
-);
-
-// show rout
-app.get(
-  "/listing/:id",
-  wrapAsync(async (req, res, next) => {
-    console.log("HIT '/listing'");
-    let data = await listing.findById(req.params.id).populate("reviews");
-    if (!data) {
-      next(new expressError(400, "Enter valid data"));
-    }
-    res.render("./listings/show", { data });
-  })
-);
-
-// editing data
-app.get(
-  "/listing/:id/edit",
-  wrapAsync(async (req, res, next) => {
-    console.log("HIT : /listings:id/edit");
-    let data = await listing.findById(req.params.id);
-    if (!data) {
-      next(new expressError(400, "data not found"));
-    }
-    res.render("./listings/edit", { data });
-  })
-);
-
-app.patch(
-  "/listing/:id/edit",
-  validateListing,
-  wrapAsync(async (req, res, next) => {
-    console.log("HIT  patch: /listing:id/edit");
-    let data = await listing.findByIdAndUpdate(req.params.id, {
-      ...req.body.listings,
-    });
-    if (!data) {
-      next(new expressError(400, "data not found"));
-    }
-    res.redirect(`/listing/${req.params.id}`);
-  })
-);
-
-// deleting listing
-app.delete(
-  "/listing/:id",
-  wrapAsync(async (req, res, next) => {
-    let data = await listing.findOneAndDelete({ _id: req.params.id });
-    if (!data) {
-      next(new expressError(400, "data not found"));
-    }
-    res.redirect("/");
-  })
-);
+app.use("/listing", listings);
 
 // adding review
-app.post(
-  "/listing/:id/review",
-  validateReview,
-  wrapAsync(async (req, res, next) => {
-    let list = await listing.findOne({ _id: req.params.id });
-
-    let data = await review.create(req.body.review);
-
-    list.reviews.push(data);
-    list = await list.save();
-    res.redirect(`/listing/${req.params.id}`);
-  })
-);
-
-// deleting review
-app.delete(
-  "/listing/:Lid/review/:Rid",
-  wrapAsync(async (req, res, next) => {
-    let { Lid, Rid } = req.params;
-    let rev = await review.findByIdAndDelete(Rid);
-    let data = await listing.findByIdAndUpdate(Lid, {
-      $pull: { reviews: Rid },
-    });
-    console.log(rev, data);
-    res.redirect(`/listing/${Lid}`);
-  })
-);
+app.use("/listing/:id/review", reviews);
 
 // rout to handle non-existing url's
 app.all("*", (req, res, next) => {
