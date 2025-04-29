@@ -5,6 +5,8 @@ const path = require("path");
 const mongoose = require("mongoose");
 const methoodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -15,6 +17,21 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(methoodOverride("_method"));
 
 app.engine("ejs", ejsMate);
+
+// sesion middleware
+app.use(
+  session({
+    secret: "kartik",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      expires: 5 * 24 * 60 * 60 * 1000,
+      maxAge: 5 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    },
+  })
+);
+app.use(flash());
 
 // calling routes
 const listings = require("./routes/listings.js");
@@ -45,6 +62,13 @@ mongoCall();
 // middleware to get HIT
 app.use((req, res, next) => {
   console.log("HIT : ", req.originalUrl);
+  next();
+});
+
+// middlewaer for flash message
+app.use((req, res, next) => {
+  res.locals.sucess = req.flash("sucess");
+  res.locals.error = req.flash("error");
   next();
 });
 

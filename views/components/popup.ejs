@@ -1,0 +1,12 @@
+<% if(sucess && sucess.length){ %>
+<h2 class="sucess-popup">
+  <p><%= sucess %></p>
+  <button class="remove"><i class="fa-solid fa-xmark"></i></button>
+</h2>
+<% } %> 
+<% if(error && error.length){ %>
+<h2 class="error-popup">
+  <p><%= error %></p>
+  <button class="remove"><i class="fa-solid fa-xmark"></i></button>
+</h2>
+<% } %>

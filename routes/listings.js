@@ -8,7 +8,7 @@ const expressError = require("../utils/expressError.js");
 const { listingSchema, reviewSchema } = require("../utils/schema.js");
 
 // calling mongooes models and their mongoose middlewares
-const  listing  = require("../models/listing.js");
+const listing = require("../models/listing.js");
 const review = require("../models/review.js");
 
 // middleware for schema validatoin at backend
@@ -30,7 +30,6 @@ router.get(
   })
 );
 
-
 // adding data
 router.get("/create", (req, res) => {
   res.render("./listings/new");
@@ -40,9 +39,10 @@ router.post(
   "/create",
   validateListing,
   wrapAsync(async (req, res, next) => {
-    let data = listings(req.body.listings);
+    let data = new listing(req.body.listings);
     await data.save();
-    res.redirect("/");
+    req.flash("sucess", "Your listing added sucessfully");
+    res.redirect("/listing");
   })
 );
 
@@ -52,8 +52,10 @@ router.get(
   wrapAsync(async (req, res, next) => {
     let data = await listing.findById(req.params.id).populate("reviews");
     if (!data) {
-      next(new expressError(400, "Enter valid data"));
+      req.flash("error", "Listing not found");
+      res.redirect("/listing");
     }
+
     res.render("./listings/show", { data });
   })
 );
@@ -64,7 +66,8 @@ router.get(
   wrapAsync(async (req, res, next) => {
     let data = await listing.findById(req.params.id);
     if (!data) {
-      next(new expressError(400, "data not found"));
+      req.flash("error", "Listing not found");
+      res.redirect("/listing");
     }
     res.render("./listings/edit", { data });
   })
@@ -80,7 +83,8 @@ router.patch(
     if (!data) {
       next(new expressError(400, "data not found"));
     }
-    res.redirect(`./listings/${req.params.id}`);
+    req.flash("sucess", "LIsting information edited sucessfully");
+    res.redirect(`/listing/${req.params.id}`);
   })
 );
 
@@ -92,8 +96,9 @@ router.delete(
     if (!data) {
       next(new expressError(400, "data not found"));
     }
-    res.redirect("/");
+    req.flash("sucess", "Listing deleted sucessfully");
+    res.redirect("/listing");
   })
 );
 
-module.exports = router
+module.exports = router;
