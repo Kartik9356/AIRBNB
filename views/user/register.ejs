@@ -1,0 +1,79 @@
+<%- layout('./layouts/boylerplate') -%>
+
+<style>
+  form {
+    margin: auto;
+    /* background-color: red; */
+    width: 80%;
+  }
+  .input {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: center;
+  }
+  input {
+    border-radius: 3px;
+    outline: none;
+    padding: 3px 5px;
+    border: 1px solid black;
+    width: 100%;
+  }
+  input {
+    height: 30px;
+  }
+  form > * {
+    /* background-color: red; */
+    margin: 10px 0;
+  }
+  label {
+    margin-bottom: 5px;
+  }
+  h2 {
+    margin-top: 15px;
+  }
+  .submit {
+    background-color: #51a949;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+  }
+  .group {
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 25px;
+  }
+  .group .input {
+    width: 50%;
+  }
+</style>
+<form action="/user/register" method="post">
+  <div class="input">
+    <label for="username">Username</label>
+    <input
+      required
+      id="username"
+      name="username"
+      placeholder="Username"
+      type="text"
+    />
+  </div>
+  <div class="input">
+    <label for="image">Email</label>
+    <input required id="email" name="email" placeholder="email" type="text" />
+  </div>
+  <div class="input">
+    <label for="password">password</label>
+    <input
+      required
+      id="password"
+      name="password"
+      placeholder="password"
+      type="text"
+    />
+  </div>
+  <button class="submit" type="submit">Register</button>
+</form>

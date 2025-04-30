@@ -7,6 +7,8 @@ const methoodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport")
+const localStrategy = require("passport-local")
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -34,12 +36,22 @@ app.use(
 app.use(flash());
 
 // calling routes
-const listings = require("./routes/listings.js");
-const reviews = require("./routes/reviews.js");
+const listingRouter = require("./routes/listings.js");
+const reviewRouter = require("./routes/reviews.js");
+const userRouter = require("./routes/user.js")
 
 // calling mongooes models and their mongoose middlewares
 const listing = require("./models/listing.js");
 const review = require("./models/review.js");
+const user =require("./models/user.js")
+
+// implementing session
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new localStrategy(user.authenticate()))
+
+passport.serializeUser(user.serializeUser())
+passport.deserializeUser(user.deserializeUser())
 
 // calling utlis
 const wrapAsync = require("./utils/wrapAsync.js");
@@ -82,10 +94,13 @@ app.get(
 );
 
 // listings rout
-app.use("/listing", listings);
+app.use("/listing", listingRouter);
 
 // adding review
-app.use("/listing/:id/review", reviews);
+app.use("/listing/:id/review", reviewRouter);
+
+// user routs
+app.use("/user",userRouter);
 
 // rout to handle non-existing url's
 app.all("*", (req, res, next) => {
