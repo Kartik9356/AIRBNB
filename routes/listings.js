@@ -7,10 +7,14 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const expressError = require("../utils/expressError.js");
 const { listingSchema, reviewSchema } = require("../utils/schema.js");
 
+// calling middleawres
+const { isAuthenticated } = require("../middlewares/isAuthenticated.js");
+
 // calling mongooes models and their mongoose middlewares
 const listing = require("../models/listing.js");
 const review = require("../models/review.js");
 
+// middlewares
 // middleware for schema validatoin at backend
 function validateListing(req, res, next) {
   let { error } = listingSchema.validate(req.body);
@@ -31,12 +35,13 @@ router.get(
 );
 
 // adding data
-router.get("/create", (req, res) => {
+router.get("/create", isAuthenticated, (req, res) => {
   res.render("./listings/new");
 });
 
 router.post(
   "/create",
+  isAuthenticated,
   validateListing,
   wrapAsync(async (req, res, next) => {
     let data = new listing(req.body.listings);
@@ -63,6 +68,7 @@ router.get(
 // editing data
 router.get(
   "/:id/edit",
+  isAuthenticated,
   wrapAsync(async (req, res, next) => {
     let data = await listing.findById(req.params.id);
     if (!data) {
@@ -75,6 +81,7 @@ router.get(
 
 router.patch(
   "/:id/edit",
+  isAuthenticated,
   validateListing,
   wrapAsync(async (req, res, next) => {
     let data = await listing.findByIdAndUpdate(req.params.id, {
@@ -91,6 +98,7 @@ router.patch(
 // deleting listing
 router.delete(
   "/:id",
+  isAuthenticated,
   wrapAsync(async (req, res, next) => {
     let data = await listing.findOneAndDelete({ _id: req.params.id });
     if (!data) {

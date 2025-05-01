@@ -7,6 +7,9 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const expressError = require("../utils/expressError.js");
 const { listingSchema, reviewSchema } = require("../utils/schema.js");
 
+// calling middleawres
+const { isAuthenticated } = require("../middlewares/isAuthenticated.js");
+
 // calling mongooes models and their mongoose middlewares
 const listing = require("../models/listing.js");
 const review = require("../models/review.js");
@@ -23,6 +26,7 @@ function validateReview(req, res, next) {
 
 router.post(
   "/",
+  isAuthenticated,
   validateReview,
   wrapAsync(async (req, res, next) => {
     let list = await listing.findOne({ _id: req.params.id });
@@ -41,6 +45,7 @@ router.post(
 // deleting review
 router.delete(
   "/:Rid",
+  isAuthenticated,
   wrapAsync(async (req, res, next) => {
     let { id, Rid } = req.params;
     let rev = await review.findByIdAndDelete(Rid);

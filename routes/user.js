@@ -6,6 +6,7 @@ const { userSchema } = require("../utils/schema.js");
 
 // mongoose model
 const user = require("../models/user.js");
+const expressError = require("../utils/expressError.js");
 
 // middleware for schema validatoin at backend
 function validateUser(req, res, next) {
@@ -41,7 +42,6 @@ router.get("/register", (req, res, next) => {
 
 router.post(
   "/register",
-  validateUser,
   wrapAsync(async (req, res, next) => {
     try {
       const { email, username, password } = req.body;
@@ -61,14 +61,14 @@ router.post(
   })
 );
 
+router.get("/logout", (req, res, next) => {
+  req.logOut((error) => {
+    if (error) {
+      return next(new expressError(403, error.details[0].message));
+    }
+    req.flash("sucess", "You loged out sucessfully");
+    res.redirect("/listing");
+  });
+});
+
 module.exports = router;
-// user creation rout
-// app.get("/demo",async(req,res,next)=>{
-//     const userObject = new user({
-//       email:"kartik@gmail.com",
-//       username:"kartik103",
-//     })
-//     const newUser = await user.register(userObject,"password")
-//     console.log(newUser);
-//     res.send(newUser);
-//   })
