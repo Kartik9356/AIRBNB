@@ -23,13 +23,9 @@ const reviewSchema = joi.object({
 });
 
 const userSchema = joi.object({
-  review: joi
-    .object({
-      username: joi.string().required(),
-      email: joi.string().required(),
-      password: joi.string().required(),
-    })
-    .required(),
+  username: joi.string().required(),
+  email: joi.string().required(),
+  password: joi.string().required(),
 });
 
 module.exports = { listingSchema, reviewSchema, userSchema };

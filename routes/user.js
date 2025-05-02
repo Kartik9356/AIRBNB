@@ -3,6 +3,7 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
 const { userSchema } = require("../utils/schema.js");
+const { preUrl } = require("../middlewares/isAuthenticated.js");
 
 // mongoose model
 const user = require("../models/user.js");
@@ -12,8 +13,8 @@ const expressError = require("../utils/expressError.js");
 function validateUser(req, res, next) {
   let { error } = userSchema.validate(req.body);
   if (error) {
-    req.flash("error", "Enter required information");
-    res.redirect("/user/register");
+    req.flash("error", error.message);
+    res.redirect("/user/signup");
   } else {
     next();
   }
@@ -26,13 +27,18 @@ router.get("/login", (req, res, next) => {
 
 router.post(
   "/login",
+  preUrl,
   passport.authenticate("local", {
     failureFlash: true,
     failureRedirect: "/user/login",
   }),
   async (req, res, next) => {
     req.flash("sucess", "wellcome to AIR-BNB");
-    res.redirect("/listing");
+    if (res.locals.preUrl) {
+      res.redirect(`${res.locals.preUrl}`);
+    }else{
+      res.redirect("/listing");
+    }
   }
 );
 
@@ -42,6 +48,7 @@ router.get("/signup", (req, res, next) => {
 
 router.post(
   "/signup",
+  validateUser,
   wrapAsync(async (req, res, next) => {
     try {
       const { email, username, password } = req.body;
@@ -55,12 +62,10 @@ router.post(
       }
       req.login(newUser, (err) => {
         if (err) {
-          console.error("Login Error:", err);
-          return next(err);
+          return next(new expressError(500, err)); // ✅ Wraps the error in your custom handler
         }
-        res.redirect("/listing"); // ✅ Redirects immediately after login
+        res.redirect("/listing");
       });
-
     } catch (e) {
       req.flash("error", e.message);
       res.redirect("/user/signup");

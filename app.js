@@ -40,7 +40,6 @@ app.use(
 );
 app.use(flash());
 
-
 // implementing session
 app.use(passport.initialize());
 app.use(passport.session());
@@ -59,7 +58,7 @@ async function mongoCall() {
   try {
     await mongoose.connect("mongodb://127.0.0.1:27017/AIRBNB");
   } catch (err) {
-    return expressError(500,"Database nont found")
+    return expressError(500, "Database nont found");
   }
 }
 mongoCall();
