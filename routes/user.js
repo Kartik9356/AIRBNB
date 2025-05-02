@@ -36,12 +36,12 @@ router.post(
   }
 );
 
-router.get("/register", (req, res, next) => {
-  res.render("./user/register");
+router.get("/signup", (req, res, next) => {
+  res.render("./user/signup");
 });
 
 router.post(
-  "/register",
+  "/signup",
   wrapAsync(async (req, res, next) => {
     try {
       const { email, username, password } = req.body;
@@ -53,10 +53,17 @@ router.post(
       if (newUser) {
         req.flash("sucess", "Registerd sucessfully, Login now");
       }
-      res.redirect("/user/login");
+      req.login(newUser, (err) => {
+        if (err) {
+          console.error("Login Error:", err);
+          return next(err);
+        }
+        res.redirect("/listing"); // ✅ Redirects immediately after login
+      });
+
     } catch (e) {
       req.flash("error", e.message);
-      res.redirect("/user/register");
+      res.redirect("/user/signup");
     }
   })
 );

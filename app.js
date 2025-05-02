@@ -10,6 +10,16 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 
+// calling routes
+const listingRouter = require("./routes/listings.js");
+const reviewRouter = require("./routes/reviews.js");
+const userRouter = require("./routes/user.js");
+
+// calling mongooes models and their mongoose middlewares
+const listing = require("./models/listing.js");
+const review = require("./models/review.js");
+const user = require("./models/user.js");
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -30,15 +40,6 @@ app.use(
 );
 app.use(flash());
 
-// calling routes
-const listingRouter = require("./routes/listings.js");
-const reviewRouter = require("./routes/reviews.js");
-const userRouter = require("./routes/user.js");
-
-// calling mongooes models and their mongoose middlewares
-const listing = require("./models/listing.js");
-const review = require("./models/review.js");
-const user = require("./models/user.js");
 
 // implementing session
 app.use(passport.initialize());
@@ -54,13 +55,11 @@ const expressError = require("./utils/expressError.js");
 const { listingSchema, reviewSchema } = require("./utils/schema.js");
 
 // calling mongoose to connect server
-function mongoCall() {
+async function mongoCall() {
   try {
-    mongoose.connect("mongodb://127.0.0.1:27017/AIRBNB");
+    await mongoose.connect("mongodb://127.0.0.1:27017/AIRBNB");
   } catch (err) {
-    console.log(
-      "Error in mongoCall function while connectiong mongoose server"
-    );
+    return expressError(500,"Database nont found")
   }
 }
 mongoCall();
@@ -76,7 +75,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.locals.sucess = req.flash("sucess");
   res.locals.error = req.flash("error");
-  res.locals.CurrUser = req.user;
+  res.locals.currUser = req.user;
   console.log(res.locals.currUser);
   next();
 });
