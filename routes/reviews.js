@@ -9,6 +9,7 @@ const { listingSchema, reviewSchema } = require("../utils/schema.js");
 
 // calling middleawres
 const { isAuthenticated } = require("../middlewares/isAuthenticated.js");
+const isAuthor = require("../middlewares/isAuthor.js");
 
 // calling mongooes models and their mongoose middlewares
 const listing = require("../models/listing.js");
@@ -48,6 +49,7 @@ router.post(
 router.delete(
   "/:Rid",
   isAuthenticated,
+  isAuthor,
   wrapAsync(async (req, res, next) => {
     let { id, Rid } = req.params;
     let rev = await review.findByIdAndDelete(Rid);

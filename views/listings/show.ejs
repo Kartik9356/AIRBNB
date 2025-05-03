@@ -26,7 +26,7 @@
     font-size: 1.1rem;
   }
   .desc {
-    margin-top: 10px;
+    margin: 10px auto;
   }
   .edit,
   .delete {
@@ -45,11 +45,11 @@
     gap: 10px;
   }
   .ratingForm {
-    margin-top: 20px;
+    margin: 20px auto;
     display: flex;
     flex-direction: column;
     gap: 5px;
-    margin-left: auto;
+    /* margin-left: auto; */
   }
   #comment {
     padding: 5px;
@@ -107,6 +107,8 @@
       <b>&#8377;<%= Number (data.price).toLocaleString("en-IN") %></b>/night
     </p>
     <p class="desc"><%= data.description %></p>
+    <!-- from here  -->
+    <% if(currUser && currUser._id.toString()==listing.owner._id.toString()){ %>
 
     <div class="flex">
       <a class="edit" href="/listing/<%= data._id %>/edit">edit</a>
@@ -115,7 +117,10 @@
         <button class="delete">delete</button>
       </form>
     </div>
+    <% } %> <% if(currUser){ %>
+
     <hr />
+
     <form
       class="ratingForm"
       action="/listing/<%= data._id %>/review"
@@ -132,19 +137,24 @@
       ></textarea>
       <button type="submit" class="ratingSubmit">submit</button>
     </form>
+    <% } %>
+    <hr />
     <h2>Reviews</h2>
     <div class="reviews">
       <% if (data.reviews.length > 0) { %> <% data.reviews.forEach(element => {
       %>
       <div class="review">
-        <p><b> <%= "kartik biradar" %> </b></p>
+        <p><b> <%= element.creator.username %> </b></p>
         <p><%= element.comment %></p>
         <p>Rating: <b><%= element.rating %></b> stars</p>
         <form
           action="/listing/<%= data._id%>/review/<%= element._id%>?_method=delete"
           method="post"
         >
+          <% if(currUser && currUser._id.toString()==
+          element.creator._id.toString()){ %>
           <button class="deleteButtton">Delete</button>
+          <% } %>
         </form>
       </div>
       <% }); %> <% } %>

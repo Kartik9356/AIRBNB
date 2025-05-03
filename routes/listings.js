@@ -9,10 +9,11 @@ const { listingSchema, reviewSchema } = require("../utils/schema.js");
 
 // calling middleawres
 const { isAuthenticated } = require("../middlewares/isAuthenticated.js");
+const isUser = require("../middlewares/isUser.js");
 
 // calling mongooes models and their mongoose middlewares
 const listing = require("../models/listing.js");
-const user = require("../models/user.js")
+const user = require("../models/user.js");
 const review = require("../models/review.js");
 
 // middlewares
@@ -46,10 +47,10 @@ router.post(
   validateListing,
   wrapAsync(async (req, res, next) => {
     let data = new listing(req.body.listings);
-    data.owner= req.user._id;
-    let lister= await user.findById(req.user._id)
-    lister.listings.push(data)
-    await lister.save()
+    data.owner = req.user._id;
+    let lister = await user.findById(req.user._id);
+    lister.listings.push(data);
+    await lister.save();
     await data.save();
     req.flash("sucess", "Your listing added sucessfully");
     res.redirect("/listing");
@@ -60,12 +61,15 @@ router.post(
 router.get(
   "/:id",
   wrapAsync(async (req, res, next) => {
-    let data = await listing.findById(req.params.id).populate("reviews");
+    let data = await listing.findById(req.params.id).populate({
+      path: "reviews",
+      populate: { path: "creator" },
+    });
+    res.locals.listing = data;
     if (!data) {
       req.flash("error", "Listing not found");
       res.redirect("/listing");
     }
-
     res.render("./listings/show", { data });
   })
 );
@@ -74,6 +78,7 @@ router.get(
 router.get(
   "/:id/edit",
   isAuthenticated,
+  isUser,
   wrapAsync(async (req, res, next) => {
     let data = await listing.findById(req.params.id);
     if (!data) {
@@ -87,6 +92,7 @@ router.get(
 router.patch(
   "/:id/edit",
   isAuthenticated,
+  isUser,
   validateListing,
   wrapAsync(async (req, res, next) => {
     let data = await listing.findByIdAndUpdate(req.params.id, {
@@ -104,6 +110,7 @@ router.patch(
 router.delete(
   "/:id",
   isAuthenticated,
+  isUser,
   wrapAsync(async (req, res, next) => {
     let data = await listing.findOneAndDelete({ _id: req.params.id });
     if (!data) {
