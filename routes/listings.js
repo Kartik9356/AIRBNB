@@ -12,6 +12,7 @@ const { isAuthenticated } = require("../middlewares/isAuthenticated.js");
 
 // calling mongooes models and their mongoose middlewares
 const listing = require("../models/listing.js");
+const user = require("../models/user.js")
 const review = require("../models/review.js");
 
 // middlewares
@@ -45,6 +46,10 @@ router.post(
   validateListing,
   wrapAsync(async (req, res, next) => {
     let data = new listing(req.body.listings);
+    data.owner= req.user._id;
+    let lister= await user.findById(req.user._id)
+    lister.listings.push(data)
+    await lister.save()
     await data.save();
     req.flash("sucess", "Your listing added sucessfully");
     res.redirect("/listing");

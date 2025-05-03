@@ -19,6 +19,10 @@ const listingSchema = mongoose.Schema({
   price: Number,
   location: String,
   country: String,
+  owner: {
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"user",
+    },
   reviews: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -34,6 +38,6 @@ listingSchema.post("findOneAndDelete", async (listing) => {
   }
 });
 
-const listings = mongoose.model("listings", listingSchema);
+const listing = mongoose.model("listing", listingSchema);
 
-module.exports =  listings ;
+module.exports =  listing ;

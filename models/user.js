@@ -5,7 +5,13 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String, 
     required: true,
-  }
+  },
+  listings:[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"listing"
+    }
+  ]
 });
 
 

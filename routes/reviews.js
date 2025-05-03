@@ -30,10 +30,12 @@ router.post(
   validateReview,
   wrapAsync(async (req, res, next) => {
     let list = await listing.findOne({ _id: req.params.id });
-    let data = await review.create(req.body.review);
+    let data = new review(req.body.review);
+    data.creator = req.user._id;
     list.reviews.push(data);
+    data = await data.save();
     list = await list.save();
-    if (list) {
+    if (list && data) {
       req.flash("sucess", "Review added sucessfully");
     } else {
       req.flash("error", "Review not added");
