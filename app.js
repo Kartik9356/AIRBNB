@@ -105,7 +105,6 @@ app.all("*", (req, res, next) => {
 // error handling middleware
 app.use((err, req, res, next) => {
   let { status = 500, message = "something went wrong" } = err;
-  // res.status(status).send(message)
   res.status(status).render("./listings/error", { status, message });
   next(err);
 });

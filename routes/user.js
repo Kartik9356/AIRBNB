@@ -2,85 +2,36 @@ const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
-const { userSchema } = require("../utils/schema.js");
 const { preUrl } = require("../middlewares/isAuthenticated.js");
 
 // mongoose model
-const user = require("../models/user.js");
-const expressError = require("../utils/expressError.js");
 
 // middleware for schema validatoin at backend
-function validateUser(req, res, next) {
-  let { error } = userSchema.validate(req.body);
-  if (error) {
-    req.flash("error", error.message);
-    res.redirect("/user/signup");
-  } else {
-    next();
-  }
-}
+const joiValidateUser = require("../middlewares/joiValidateuser.js");
+const controller = require("../controllers/user.js");
 
 // user creation rout
-router.get("/login", (req, res, next) => {
-  res.render("./user/login");
-});
-
-router.post(
-  "/login",
-  preUrl,
-  passport.authenticate("local", {
-    failureFlash: true,
-    failureRedirect: "/user/login",
-  }),
-  async (req, res, next) => {
-    req.flash("sucess", "wellcome to AIR-BNB");
-    if (res.locals.preUrl) {
-      res.redirect(`${res.locals.preUrl}`);
-    }else{
-      res.redirect("/listing");
-    }
-  }
-);
-
-router.get("/signup", (req, res, next) => {
-  res.render("./user/signup");
-});
-
-router.post(
-  "/signup",
-  validateUser,
-  wrapAsync(async (req, res, next) => {
-    try {
-      const { email, username, password } = req.body;
-      const userObject = new user({
-        email,
-        username,
-      });
-      const newUser = await user.register(userObject, password);
-      if (newUser) {
-        req.flash("sucess", "Registerd sucessfully, Login now");
-      }
-      req.login(newUser, (err) => {
-        if (err) {
-          return next(new expressError(500, err)); // ✅ Wraps the error in your custom handler
-        }
-        res.redirect("/listing");
-      });
-    } catch (e) {
-      req.flash("error", e.message);
-      res.redirect("/user/signup");
-    }
+router
+  .route("/login")
+  .get((req, res, next) => {
+    res.render("./user/login");
   })
-);
+  .post(
+    preUrl,
+    passport.authenticate("local", {
+      failureFlash: true,
+      failureRedirect: "/user/login",
+    }),
+    wrapAsync(controller.postLogin)
+  );
 
-router.get("/logout", (req, res, next) => {
-  req.logOut((error) => {
-    if (error) {
-      return next(new expressError(403, error.details[0].message));
-    }
-    req.flash("sucess", "You loged out sucessfully");
-    res.redirect("/listing");
-  });
-});
+router
+  .route("/signup")
+  .get((req, res, next) => {
+    res.render("./user/signup");
+  })
+  .post(joiValidateUser, wrapAsync(controller.postSignUp));
+
+router.get("/logout", controller.logout);
 
 module.exports = router;
