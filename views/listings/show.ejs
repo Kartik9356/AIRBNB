@@ -101,7 +101,7 @@
 <body>
   <div class="main">
     <p class="title"><%= data.title %></p>
-    <img class="image" src="<%= data.image %>" alt="hotel image" />
+    <img class="image" src="<%= data.image.url %>" alt="hotel image" />
     <p class="location"><b><%= data.location %> in <%= data.country %> </b></p>
     <p class="price">
       <b>&#8377;<%= Number (data.price).toLocaleString("en-IN") %></b>/night
@@ -154,10 +154,10 @@
     </form>
     <% } %>
     <hr />
-    <h2>Reviews</h2>
-    <div class="reviews">
-      <% if (data.reviews.length > 0) { %> <% data.reviews.forEach(element => {
-      %>
+    <% if (data.reviews.length > 0) { %> <% data.reviews.forEach(element => { %>
+        <h2>Reviews</h2>
+        <div class="reviews">
+
       <div class="review">
         <p><b> <%= element.creator.username %> </b></p>
         <p><%= element.comment %></p>

@@ -54,7 +54,7 @@
 
 <body>
   <h2>Fill Details</h2>
-  <form action="/listing/create" method="post">
+  <form action="/listing/create" method="post" enctype="multipart/form-data">
     <div class="input">
       <label for="title">Title<sup>*</sup></label>
       <input
@@ -75,9 +75,13 @@
         placeholder="Description"
       ></textarea>
     </div>
-    <div class="input">
+    <!-- <div class="input">
       <label for="image">Image URL</label>
       <input id="image" name="listings[image]" placeholder="URL" type="text" />
+    </div> -->
+    <div class="input">
+      <label for="image">Image File</label>
+      <input id="image" name="listings[image]" placeholder="Image" type="file" />
     </div>
     <div class="group">
       <div class="input">

@@ -56,10 +56,10 @@
 
 <body>
   <div class="cards">
-    <% for (const list of data) { %>
+    <% for (const list of data.reverse()) { %>
     <a class="card-link" href="/listing/<%= list._id %>">
       <div class="card">
-        <img class="card-img" src="<%= list.image  %>" alt="Card image cap" />
+        <img class="card-img" src="<%= list.image.url  %>" alt="Card image cap" />
         <div class="card-body">
           <p class="card-text"><b><%= list.title %> </b><br /></p>
           <p>

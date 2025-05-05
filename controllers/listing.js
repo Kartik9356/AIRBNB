@@ -12,6 +12,8 @@ module.exports.showListings = async (req, res, next) => {
 module.exports.postCreate = async (req, res, next) => {
   let data = new listing(req.body.listings);
   data.owner = req.user._id;
+  data.image.url=req.file.path;
+  data.image.filename=req.file.originalname;
   let lister = await user.findById(req.user._id);
   lister.listings.push(data);
   await lister.save();
