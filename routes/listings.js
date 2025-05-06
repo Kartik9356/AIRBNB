@@ -26,9 +26,6 @@ router
     res.render("./listings/new");
   })
   .post(isAuthenticated,upload.single("listings[image]"), joiValidateListing, wrapAsync(controller.postCreate));
-  // .post(upload.single("listings[image]"),(req,res,next)=>{
-  //    res.send(req.file)
-  // })
 
 // show rout
 // deleting listing
@@ -44,6 +41,7 @@ router
   .patch(
     isAuthenticated,
     isUser,
+    upload.single("listings[image]"),
     joiValidateListing,
     wrapAsync(controller.updateListing)
   );

@@ -8,25 +8,30 @@ const listingSchema = mongoose.Schema({
   },
   description: String,
   image: {
-    filename:{
-      type:String,
-      default:"listingImage"
+    filename: {
+      type: String,
+      default: "listingImage",
     },
-    url:String
+    url: String,
   },
   price: Number,
   location: String,
   country: String,
   owner: {
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"user",
-    },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
   reviews: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "review",
     },
   ],
+  category: {
+    type: [String],
+    enum: ["mountain", "miver", "forest", "beach", "desert", "city", "village"],
+    default: [],
+  },
 });
 
 // middleware to delete all reviews of listing
@@ -38,4 +43,4 @@ listingSchema.post("findOneAndDelete", async (listing) => {
 
 const listing = mongoose.model("listing", listingSchema);
 
-module.exports =  listing ;
+module.exports = listing;
