@@ -1,3 +1,23 @@
+
+<script>
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+  
+  let category= <%- JSON.stringify(data.category) %>
+  
+  const options = document.querySelectorAll(".form-check-input");
+  options.forEach(op => {
+    category.forEach(ct => {
+      if(ct == op.id){
+        console.log("found")
+        op.setAttribute("checked",true)
+      }
+    });
+  });
+})
+</script>
+
 <% layout('./layouts/boylerplate') -%>
 
 <style>
@@ -21,7 +41,7 @@
     width: 100%;
   }
   input {
-    height: 30px;
+    height: 37px;
   }
   form > *{
     /* background-color: red; */
@@ -48,6 +68,24 @@
   }
   .group .input{
     width: 50%;
+  }
+  .categoryInput {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px 5px;
+    border-radius: 3px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between
+  }
+    .form-switch{
+    border: 1px solid #000000;
+    padding-right: 45px !important;
+    padding-left: 7px !important;
+    margin: 5px;
+    padding-top: 4px;
+    border-radius: 10px;
   }
 </style>
 
@@ -83,6 +121,63 @@
       <label for="image">New Image (Choose if you want to cahnge)</label>
       <input id="image" name="listings[image]" placeholder="Image" type="file" />
     </div>
+
+    <label>Choose your listings category</label>
+    <div class="input categoryInput">
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="mountain" name="listings[category][]" value="mountain">
+        <label class="form-check-label" for="mountain">Mountain</label>
+      </div>
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="swimmingPool" name="listings[category][]" value="swimmingPool">
+        <label class="form-check-label" for="swimmingPool">Swimming Pool</label>
+      </div>
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="tinyHomes" name="listings[category][]" value="tinyHomes">
+        <label class="form-check-label" for="tinyHomes">Tiny Homes</label>
+      </div>
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="farms" name="listings[category][]" value="farms">
+        <label class="form-check-label" for="farms">Farms</label>
+      </div>
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="city" name="listings[category][]" value="city">
+        <label class="form-check-label" for="city">City</label>
+      </div>
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="beachfront" name="listings[category][]" value="beachfront">
+        <label class="form-check-label" for="beachfront">Beachfront</label>
+      </div>
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="luxe" name="listings[category][]" value="luxe">
+        <label class="form-check-label" for="luxe">Luxe</label>
+      </div>
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="rooms" name="listings[category][]" value="rooms">
+        <label class="form-check-label" for="rooms">Rooms</label>
+      </div>
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="mansion" name="listings[category][]" value="mansion">
+        <label class="form-check-label" for="mansion">Mansion</label>
+      </div>
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="island" name="listings[category][]" value="island">
+        <label class="form-check-label" for="island">Island</label>
+      </div>
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="play" name="listings[category][]" value="play">
+        <label class="form-check-label" for="play">Play</label>
+      </div>
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="arctic" name="listings[category][]" value="arctic">
+        <label class="form-check-label" for="arctic">Arctic</label>
+      </div>
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="camperVans" name="listings[category][]" value="camperVans">
+        <label class="form-check-label" for="camperVans">Camper Vans</label>
+      </div>
+    </div>
+
    <div class="group">
     <div class="input">
       <label for="price">Price<sup>*</sup></label>

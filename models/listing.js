@@ -29,7 +29,21 @@ const listingSchema = mongoose.Schema({
   ],
   category: {
     type: [String],
-    enum: ["mountain", "miver", "forest", "beach", "desert", "city", "village"],
+    enum: [
+      "mountain",
+      "swimmingPool",
+      "tinyHomes",
+      "farms",
+      "city",
+      "beachfront",
+      "luxe",
+      "rooms",
+      "mansion",
+      "island",
+      "play",
+      "arctic",
+      "camperVans"
+    ],
     default: [],
   },
 });

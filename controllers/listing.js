@@ -46,7 +46,7 @@ module.exports.renderEditListingForm = async (req, res, next) => {
 module.exports.updateListing = async (req, res, next) => {
   // let data = await listing.findByIdAndUpdate(req.params.id, {
   //   ...req.body.listings  });
-  let { title, description, price, country, location } = req.body.listings;
+  let { title, description, price, country, location, category } = req.body.listings;
   let data = await listing.findById(req.params.id);
   if (data) {
     data.title = title;
@@ -54,8 +54,13 @@ module.exports.updateListing = async (req, res, next) => {
     data.price = price;
     data.country = country;
     data.location = location;
+   if(req.file){
     data.image.url = req.file.path;
     data.image.filename = req.file.originalname;
+   }
+   if(category){
+    data.category=category
+   }
     await data.save();
   } else {
     next(new expressError(400, "data not found"));

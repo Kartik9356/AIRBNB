@@ -1,15 +1,18 @@
 const joi = require("joi");
 
 const listingSchema = joi.object({
-  listings: joi
-    .object({
-      title: joi.string().required(),
-      description: joi.string().required(),
-      price: joi.number().required().min(0),
-      location: joi.string().required(),
-      country: joi.string().required(),
-    })
-    .required(),
+  listings: joi.object({
+    title: joi.string().required(),
+    description: joi.string().required(),
+    price: joi.number().required().min(0),
+    location: joi.string().required(),
+    country: joi.string().required(),
+    category: joi.array().items(joi.string().valid(
+      "mountain", "swimmingPool", "tinyHomes", "farms",
+      "city", "beachfront", "luxe", "rooms", "mansion",
+      "island", "play", "arctic", "camperVans"
+    )).optional() // ✅ Makes category optional
+  }).required(),
 });
 
 const reviewSchema = joi.object({
