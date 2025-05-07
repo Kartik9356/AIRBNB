@@ -28,7 +28,7 @@ const userSchema = joi.object({
   username: joi.string().required(),
   email: joi.string().required(),
   password: joi.string().required(),
-  number: joi.number().min(1111111111).max(9999999999).required()
+  number: joi.number().min(1111111111).max(9999999999).required(),
 });
 
 module.exports = { listingSchema, reviewSchema, userSchema };

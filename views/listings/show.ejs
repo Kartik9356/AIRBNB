@@ -95,6 +95,12 @@
   .deleteButtton:hover {
     cursor: pointer;
     transform: scale(1.05);
+  }.numberbtn {
+    text-decoration: none;
+    background-color: green;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
   }
 </style>
 
@@ -118,7 +124,7 @@
       </form>
     </div>
     <% } %> <% if(currUser){ %>
-
+      <a target="_blank" class="numberbtn" href="https://api.whatsapp.com/send?phone=91<%= data.owner.number %>&text=Hi%2C%20i%20am%20intrested%20to%20book%20your%20listing%2C%20can%20we%20discuss"><i class="fa-brands fa-whatsapp"></i> Reserve</a>
     <hr />
 
     <form

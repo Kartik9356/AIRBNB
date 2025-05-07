@@ -25,7 +25,7 @@ module.exports.individualListing = async (req, res, next) => {
   let data = await listing.findById(req.params.id).populate({
     path: "reviews",
     populate: { path: "creator" },
-  });
+  }).populate("owner")
   res.locals.listing = data;
   if (!data) {
     req.flash("error", "Listing not found");

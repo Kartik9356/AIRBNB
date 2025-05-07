@@ -12,10 +12,11 @@ module.exports.postLogin=async (req, res, next) => {
 
   module.exports.postSignUp=async (req, res, next) => {
     try {
-      const { email, username, password } = req.body;
+      const { email, username, password, number } = req.body;
       const userObject = new user({
         email,
         username,
+        number,
       });
       const newUser = await user.register(userObject, password);
       if (newUser) {
