@@ -53,10 +53,13 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
 const { listingSchema, reviewSchema } = require("./utils/schema.js");
 
+const DBURL =
+  "mongodb+srv://biradarkartik690:K4W5iyEa1GRFsjf7@cluster0.fjd3ofu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
 // calling mongoose to connect server
 async function mongoCall() {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/AIRBNB");
+    await mongoose.connect(DBURL);
   } catch (err) {
     return expressError(500, "Database nont found");
   }
