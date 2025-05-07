@@ -3,14 +3,17 @@
     listings.forEach(element => {
     });
 
-    let upload= [];
-
+    let upload = [...listings].map(card => card);
+    
+    
     document.addEventListener("DOMContentLoaded", () => {
+      
       const options = document.querySelectorAll(".option");
       const optionValues = [...options].map(option => option);
 
       optionValues.forEach((option) => {
         option.addEventListener("click", (e) => {
+          upload=[]
           if(option.getAttribute("value") == "all"){
             window.location.href = "/listing"; 
             return;
@@ -26,16 +29,15 @@
           window.location.href = "/listing"; 
          }
          else{
-          render()
-          upload = [];
+          render(upload)
          }
         });
       });
 
-      function render() {
+      function render(data) {
         const cards = document.querySelector(".cards");
         cards.innerHTML = "";
-        upload.forEach((list) => {
+        data.forEach((list) => {
           const cardLink = document.createElement("a");
           cardLink.classList.add("card-link");
           cardLink.href = `/listing/${list._id}`;
@@ -48,6 +50,7 @@
               </div>
             </div>
           `;
+          console.log("hello");
           cards.appendChild(cardLink);
         });
       }
@@ -65,8 +68,24 @@
         }
       });
 
+
+      document.querySelector(".search-input").addEventListener("input", (e) => {
+        data=[]
+        const searchValue = e.target.value.toLowerCase();
+        upload.forEach(element => {
+          console.log(element.title.toLowerCase());
+          if(element.title.toLowerCase().includes(searchValue) || element.location.toLowerCase().includes(searchValue) || element.country.toLowerCase().includes(searchValue)){
+            data.push(element);
+          }
+        });
+        render(data);
+      });   
   });
+
+
+
 </script>
+
 
 <%- layout('./layouts/boylerplate') -%>
 

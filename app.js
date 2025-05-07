@@ -53,15 +53,16 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
 const { listingSchema, reviewSchema } = require("./utils/schema.js");
 
-const DBURL =
-  "mongodb+srv://biradarkartik690:K4W5iyEa1GRFsjf7@cluster0.fjd3ofu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// const DBURL =
+  // "mongodb+srv://biradarkartik690:K4W5iyEa1GRFsjf7@cluster0.fjd3ofu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
+  const DBURL = "mongodb://localhost:27017/AIRBNB";
 // calling mongoose to connect server
 async function mongoCall() {
   try {
     await mongoose.connect(DBURL);
   } catch (err) {
-    return expressError(500, "Database nont found");
+    return new expressError(500, "Database nont found");
   }
 }
 mongoCall();
