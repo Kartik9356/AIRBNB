@@ -5,7 +5,7 @@ const expressError = require("../utils/expressError.js");
 
 module.exports.showListings = async (req, res, next) => {
   let data = await listing.find({});
-  res.render("./listings/listings", { data });
+  res.render("./listings/index", { data });
 };
 
 module.exports.postCreate = async (req, res, next) => {
@@ -22,16 +22,22 @@ module.exports.postCreate = async (req, res, next) => {
 };
 
 module.exports.individualListing = async (req, res, next) => {
-  let data = await listing.findById(req.params.id).populate({
-    path: "reviews",
-    populate: { path: "creator" },
-  }).populate("owner")
+  let data = await listing
+    .findById(req.params.id)
+    .populate({
+      path: "reviews",
+      populate: { path: "creator" },
+    })
+    .populate("owner");
   res.locals.listing = data;
   if (!data) {
     req.flash("error", "Listing not found");
     res.redirect("/listing");
   }
-  res.render("./listings/show", { data });
+  let more = await listing.find({
+    country: { $regex: new RegExp(data.country, "i") }, // "i" makes it case-insensitive
+  });
+  res.render("./listings/show", { data,more });
 };
 
 module.exports.renderEditListingForm = async (req, res, next) => {
@@ -46,7 +52,8 @@ module.exports.renderEditListingForm = async (req, res, next) => {
 module.exports.updateListing = async (req, res, next) => {
   // let data = await listing.findByIdAndUpdate(req.params.id, {
   //   ...req.body.listings  });
-  let { title, description, price, country, location, category } = req.body.listings;
+  let { title, description, price, country, location, category } =
+    req.body.listings;
   let data = await listing.findById(req.params.id);
   if (data) {
     data.title = title;
@@ -54,13 +61,13 @@ module.exports.updateListing = async (req, res, next) => {
     data.price = price;
     data.country = country;
     data.location = location;
-   if(req.file){
-    data.image.url = req.file.path;
-    data.image.filename = req.file.originalname;
-   }
-   if(category){
-    data.category=category
-   }
+    if (req.file) {
+      data.image.url = req.file.path;
+      data.image.filename = req.file.originalname;
+    }
+    if (category) {
+      data.category = category;
+    }
     await data.save();
   } else {
     next(new expressError(400, "data not found"));

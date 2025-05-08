@@ -54,9 +54,9 @@ const expressError = require("./utils/expressError.js");
 const { listingSchema, reviewSchema } = require("./utils/schema.js");
 
 // const DBURL =
-  // "mongodb+srv://biradarkartik690:K4W5iyEa1GRFsjf7@cluster0.fjd3ofu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// "mongodb+srv://biradarkartik690:K4W5iyEa1GRFsjf7@cluster0.fjd3ofu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-  const DBURL = "mongodb://localhost:27017/AIRBNB";
+const DBURL = "mongodb://localhost:27017/AIRBNB";
 // calling mongoose to connect server
 async function mongoCall() {
   try {
@@ -88,7 +88,8 @@ app.use((req, res, next) => {
 app.get(
   "/",
   wrapAsync(async (req, res, next) => {
-    res.render("./listings/index");
+    let data = await listing.find({});
+    res.render("./listings/index",{data});
   })
 );
 

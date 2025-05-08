@@ -1,6 +1,181 @@
+<script>
+  listings = <% - JSON.stringify(data) %>;
+  listings.forEach(element => {
+  });
+
+  let upload = [...listings].map(card => card);
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+
+    const options = document.querySelectorAll(".option");
+    const optionValues = [...options].map(option => option);
+
+    optionValues.forEach((option) => {
+      option.addEventListener("click", (e) => {
+        upload = []
+        if (option.getAttribute("value") == "all") {
+          window.location.href = "/listing";
+          return;
+        }
+        listings.forEach(element => {
+          console.log(element.category.indexOf("mountain"));
+          if (element.category.indexOf(option.getAttribute("value")) > -1) {
+            upload.push(element);
+          }
+        });
+        if (upload.length == 0) {
+          alert("No listings found");
+          window.location.href = "/listing";
+        }
+        else {
+          render(upload)
+        }
+      });
+    });
+
+    function render(data) {
+      const cards = document.querySelector(".cards");
+      cards.innerHTML = "";
+      data.forEach((list) => {
+        const cardLink = document.createElement("a");
+        cardLink.classList.add("card-link");
+        cardLink.href = `/listing/${list._id}`;
+        cardLink.innerHTML = `
+            <div class="card">
+              <img class="card-img" src="${list.image.url}" alt="Card image cap" />
+              <div class="card-body">
+                <p class="card-text"><b>${list.title}</b><br /></p>
+                <p><b> &#8377;${Number(list.price).toLocaleString("en-IN")}</b>/night</p>
+              </div>
+            </div>
+          `;
+        console.log("hello");
+        cards.appendChild(cardLink);
+      });
+    }
+
+    const tax = document.querySelector(".form-check-input");
+    tax.addEventListener("click", (e) => {
+      if (tax.checked) {
+        document.querySelectorAll(".gst").forEach(gst => {
+          gst.style.display = "inline-block";
+        });
+      } else {
+        document.querySelectorAll(".gst").forEach(gst => {
+          gst.style.display = "none";
+        });
+      }
+    });
+
+
+    document.querySelector(".search-input").addEventListener("input", (e) => {
+      data = []
+      const searchValue = e.target.value.toLowerCase();
+      upload.forEach(element => {
+        console.log(element.title.toLowerCase());
+        if (element.title.toLowerCase().includes(searchValue) || element.location.toLowerCase().includes(searchValue) || element.country.toLowerCase().includes(searchValue)) {
+          data.push(element);
+        }
+      });
+      render(data);
+    });
+  });
+
+
+
+</script>
+
 
 <%- layout('./layouts/boylerplate') -%>
 
-<body>
- <h1> this is my home page</h1>
-</body>
+  <style>
+    .gst {
+      display: none;
+    }
+  </style>
+  <link rel="stylesheet" href="/styles/listing.css">
+
+  <body>
+    <div class="optionContainer">
+      <div class="options">
+        <div class="option" value="all">
+          <i class="fa-solid fa-globe"></i>
+          <p>All Listings</p>
+        </div>
+        <div class="option" value="farms">
+          <i class="fa-solid fa-wheat-awn"></i>
+          <p>Farms</p>
+        </div>
+        <div class="option" value="mountain">
+          <i class="fa-solid fa-mountain-sun"></i>
+          <p>Mountain</p>
+        </div>
+        <div class="option" value="swimmingPool">
+          <i class="fa-solid fa-person-swimming"></i>
+          <p>Swmming pool</p>
+        </div>
+        <div class="option" value="tinyHomes">
+          <i class="fa-solid fa-house"></i>
+          <p>Tiny homes</p>
+        </div>
+        <div class="option" value="city">
+          <i class="fa-solid fa-city"></i>
+          <p>City</p>
+        </div>
+        <div class="option" value="beachfront">
+          <i class="fa-solid fa-umbrella-beach"></i>
+          <p>Beach Front</p>
+        </div>
+        <div class="option" value="luxe">
+          <i class="fa-solid fa-crown"></i>
+          <p>Luxe</p>
+        </div>
+        <div class="option" value="rooms">
+          <i class="fa-brands fa-buromobelexperte"></i>
+          <p>Rooms</p>
+        </div>
+        <div class="option" value="island">
+          <i class="fa-solid fa-disease"></i>
+          <p>Island</p>
+        </div>
+        <div class="option" value="mansion">
+          <i class="fa-brands fa-fort-awesome"></i>
+          <p>Mansion</p>
+        </div>
+        <div class="option" value="play">
+          <i class="fa-solid fa-child-reaching"></i>
+          <p>Play</p>
+        </div>
+        <div class="option" value="camperVans">
+          <i class="fa-solid fa-van-shuttle"></i>
+          <p>Camper Vans</p>
+        </div>
+      </div>
+      <div class="tax">
+        <div class="form-check-reverse form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="farms" name="listings[category][]"
+            value="farms">
+          <label class="form-check-label" for="farms">Include tax</label>
+        </div>
+      </div>
+    </div>
+    <div class="cards">
+      <% for (const list of data.reverse()) { %>
+        <a class="card-link" href="/listing/<%= list._id %>">
+          <div class="card">
+            <img class="card-img" src="<%= list.image.url  %>" alt="Card image cap" />
+            <div class="card-body">
+              <p class="card-text"><b>
+                  <%= list.title %>
+                </b><br /></p>
+              <p>
+                <b> &#8377;<%= Number(list.price).toLocaleString("en-IN") %> </b>/night <i class="gst">+ 18% gst</i>
+              </p>
+            </div>
+          </div>
+        </a>
+        <% } %>
+          <br />
+    </div>
+  </body>
