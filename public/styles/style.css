@@ -7,9 +7,11 @@
 .container,
 .sucess-popup,
 .error-popup {
-  /* height: 70vh; */
+  min-height: 78vh;
   margin: auto;
   width: 90%;
+  position: relative;
+  height: max-content;
 }
 .sucess-popup,
 .error-popup {

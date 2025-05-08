@@ -10,13 +10,12 @@ a {
     /* overflow: hidden; */
   }
   .cards {
-    margin: 20px auto;
-    width: 90vw;
+    margin: 35px auto;
     display: grid;
-    /* grid-template-columns:25% 25% 25% 25%; */
-    grid-template-columns: repeat(4, 23%);
+    grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
     column-gap: 15px;
     row-gap: 15px;
+    justify-content: center
   }
   .card-link {
     transition: all 0.2s ease-in-out;
@@ -25,9 +24,6 @@ a {
     border-radius: 15px;
   }
   .card-body {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     justify-content: space-between;
     height: 60px;
     padding: 0px !important;
@@ -43,24 +39,17 @@ a {
   }
 
 
-/* Tablet View (≤1024px) */
-@media (max-width: 1024px) {
-    .container {
-        grid-template-columns: repeat(2, 48%); /* Two columns */
-    }
-}
 
-
-  @media screen and (max-width: 450px) {
-    .cards {
-      width: 96vw;
-      grid-template-columns: repeat(1, 95%);
-      column-gap: 15px;
-      row-gap: 15px;
-    }
-  }  .optionContainer{
+  .optionContainer{
+      z-index: 10;
+    /* box-shadow: 0px 0px 20px rgb(116, 116, 116); */
+    padding: 0px 50px;
+    transform: scaleX(1.1);
     display: flex;
     align-items: center;
+    background-color: white;
+    position: sticky;
+    top: 64px;
   }
   .options {
     margin-left: 5px !important;
@@ -105,4 +94,12 @@ p{
 .form-switch{
   margin-left: 20px;
   width: 120px;
+}
+@media screen and (max-width: 650px) {
+  .optionContainer{
+    padding: 0px;
+  }
+  .cards{
+    margin: 22px 0px;
+  }
 }

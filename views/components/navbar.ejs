@@ -4,6 +4,7 @@
     color: #fe404d;
     margin: 0 10px;
   }
+
   .navbar {
     z-index: 100;
     position: sticky;
@@ -11,19 +12,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    backdrop-filter: blur(30px);
-    background-color: rgb(255, 255, 255,0.6);
     height: 4rem;
     width: 100%;
+    background-color: white;
     box-shadow: 0px 0px 20px rgb(116, 116, 116);
     padding: 0 5%;
   }
+
   .nav-item {
     text-decoration: none;
     color: black;
     margin: 0 10px;
   }
-.search-input {
+
+  .search-input {
     width: 250px;
     padding: 5px;
     font-size: 16px;
@@ -31,27 +33,117 @@
     border-radius: 5px;
     outline: none;
     transition: all 0.3s ease-in-out;
-}
+  }
 
-.search-input:focus {
+  .search-input:focus {
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
+  }
+
+  .navItems {
+    overflow: hidden;
+    position: absolute;
+    height: 100vh;
+   background-color: white;
+    top: 0px;
+    left: 0px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .items {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+  }
+
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .fa-bars{
+    display: none;
+  }
+  .fa-bars,
+  .fa-xmark {
+    font-size: 1.7rem;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+      transform: scale(1.05);
+      background-color: rgb(255, 255, 255);
+      box-shadow: 0px 0px 20px rgb(116, 116, 116);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  .fa-xmark {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 10px;
+  }
+
+  .hide {
+    width: 0px;
+  }
+
+  @media screen and (max-device-width: 650px) {
+    .nav-items {
+      display: none;
+    }
+    .fa-bars{
+    display: block;
+  }
+    .search-input {
+      width: auto;
+    }
+  }
 </style>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".fa-bars").addEventListener("click", (e) => {
+      document.querySelector(".navItems").style.width = "70%";
+    });
+    document.querySelector(".fa-xmark").addEventListener("click", (e) => {
+      document.querySelector(".navItems").style.width = "0%";
+    });
+  });
+</script>
 
 <nav class="navbar">
-  <a class="navbar-brand" href="/">
-    <i class="fa-brands fa-google"></i>
-  </a>
-  <input type="search" placeholder="Search..." class="search-input">
+  <div class="navbar-brand">
+    <i class="fa-solid fa-bars"></i>
+    <a href="/">
+      <i class="fa-brands fa-google"></i>
+    </a>
+  </div>
+  <input type="search" placeholder="Search..." class="search-input" />
   <div class="nav-items">
-    <!-- <a class="nav-item" href="/">Home</a> -->
-    <!-- <a class="nav-item" href="/listing">Listings</a> -->
     <a class="nav-item" href="/listing/create">Add New Listing</a>
     <% if(!currUser){ %>
     <a class="nav-item" href="/user/login">Login</a>
     <% }else{ %>
     <a class="nav-item" href="/user/logout">Logout</a>
     <% } %>
+  </div>
+  <div class="navItems hide">
+    <i class="fa-solid fa-xmark"></i>
+    <div class="items">
+      <a class="nav-item" href="/listing/create">Add New Listing</a>
+      <% if(!currUser){ %>
+      <a class="nav-item" href="/user/login">Login</a>
+      <% }else{ %>
+      <a class="nav-item" href="/user/logout">Logout</a>
+      <% } %>
+    </div>
   </div>
 </nav>

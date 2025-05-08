@@ -1,238 +1,261 @@
 <% layout('./layouts/boylerplate') -%>
 
-  <style>
-    .container {
-      margin: 10px auto;
-    }
+<style>
+  .container {
+    margin: 10px auto;
+  }
 
-    .main {
-      margin: auto;
-      width: 75%;
-      /* background-color: red; */
-    }
+  .main {
+    margin: auto;
+    width: 75%;
+    /* background-color: red; */
+  }
 
-    .title {
-      margin-top: 10px;
-      font-weight: 700;
-      font-size: 1.5rem;
-    }
+  .title {
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
 
-    .image {
-      width: 100%;
-      height: 350px;
-      object-fit: cover;
-      border-radius: 15px;
-      margin: 10px 0;
-    }
+  .image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin: 10px 0;
+  }
 
-    .location {
-      margin-bottom: 5px;
-      font-size: 1.1rem;
-    }
+  .location {
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+  }
 
-    .desc {
-      margin: 10px auto;
-    }
+  .desc {
+    margin: 10px auto;
+  }
 
-    .edit,
-    .delete {
-      text-decoration: none;
-      color: white;
-      background-color: rgb(85, 85, 85);
-      padding: 5px 10px;
-      border-radius: 5px;
-      border: none;
-    }
+  .edit,
+  .delete {
+    text-decoration: none;
+    color: white;
+    background-color: rgb(85, 85, 85);
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+  }
 
-    .flex {
-      margin: 15px 0;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 10px;
-    }
+  .flex {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+  }
 
-    .ratingForm {
-      margin: 20px auto;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      /* margin-left: auto; */
-    }
+  .ratingForm {
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* margin-left: auto; */
+  }
 
-    #comment {
-      padding: 5px;
-    }
+  #comment {
+    padding: 5px;
+  }
 
-    .ratingSubmit {
-      width: max-content;
-      padding: 5px 10px;
-      background-color: green;
-      color: white;
-      border-radius: 5px;
-      border: none;
+  .ratingSubmit {
+    width: max-content;
+    padding: 5px 10px;
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    border: none;
 
-      &:hover {
-        cursor: pointer;
-        transform: scale(1.05);
-      }
-    }
-
-    .reviews {
-      display: grid;
-      grid-template-columns: repeat(2, 2fr);
-      gap: 10px;
-    }
-
-    h2 {
-      margin: 15px 0;
-    }
-
-    .review {
-      border-radius: 5px;
-      border: 1px solid rgb(137, 137, 137);
-      padding: 10px;
-    }
-
-    .review :first-child {
-      margin-bottom: 5px;
-    }
-
-    .review :last-child {
-      margin-top: 3px;
-    }
-
-    .deleteButtton {
-      background-color: rgba(0, 0, 255, 0.532);
-      color: white;
-      border-radius: 5px;
-      border: none;
-      padding: 5px 10px;
-    }
-
-    .deleteButtton:hover {
+    &:hover {
       cursor: pointer;
       transform: scale(1.05);
     }
+  }
 
-    .numberbtn {
-      text-decoration: none;
-      background-color: green;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
+  .reviews {
+    display: grid;
+    grid-template-columns: repeat(2, 2fr);
+    gap: 10px;
+  }
+
+  h2 {
+    margin: 15px 0;
+  }
+
+  .review {
+    border-radius: 5px;
+    border: 1px solid rgb(137, 137, 137);
+    padding: 10px;
+  }
+
+  .review :first-child {
+    margin-bottom: 5px;
+  }
+
+  .review :last-child {
+    margin-top: 3px;
+  }
+
+  .deleteButtton {
+    background-color: rgba(0, 0, 255, 0.532);
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 5px 10px;
+  }
+
+  .deleteButtton:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
+
+  .numberbtn {
+    text-decoration: none;
+    background-color: green;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+
+  .more {
+    margin: 20px auto;
+    width: 100%;
+  }
+  @media screen and (max-width: 650px) {
+    .main {
+      width: 90%;
     }
-
-    .more {
-      margin: 20px auto;
-      width: 100%;
+    .reviews {
+      grid-template-columns: repeat(1, 1fr);
     }
-  </style>
-  <link rel="stylesheet" href="/styles/listing.css">
+  }
+</style>
+<link rel="stylesheet" href="/styles/listing.css" />
 
-  <body>
-    <div class="main">
-      <p class="title">
-        <%= data.title %>
-      </p>
-      <img class="image" src="<%= data.image.url %>" alt="hotel image" />
-      <p class="location"><b>
-          <%= data.location %> in <%= data.country %>
-        </b></p>
-      <p class="price">
-        <b>&#8377;<%= Number (data.price).toLocaleString("en-IN") %></b>/night
-      </p>
-      <p class="desc">
-        <%= data.description %>
-      </p>
-      <!-- from here  -->
-      <% if(currUser && currUser._id.toString()==listing.owner._id.toString()){ %>
+<body>
+  <div class="main">
+    <p class="title"><%= data.title %></p>
+    <img class="image" src="<%= data.image.url %>" alt="hotel image" />
+    <p class="location"><b> <%= data.location %> in <%= data.country %> </b></p>
+    <p class="price">
+      <b>&#8377;<%= Number (data.price).toLocaleString("en-IN") %></b>/night
+    </p>
+    <p class="desc"><%= data.description %></p>
+    <!-- from here  -->
+    <% if(currUser && currUser._id.toString()==listing.owner._id.toString()){ %>
 
-        <div class="flex">
-          <a class="edit" href="/listing/<%= data._id %>/edit">edit</a>
-          <br />
-          <form action="/listing/<%= data._id %>?_method=DELETE" method="post">
-            <button class="delete">delete</button>
-          </form>
-        </div>
-        <% } %>
-          <% if(currUser){ %>
-            <a target="_blank" class="numberbtn"
-              href="https://api.whatsapp.com/send?phone=91<%= data.owner.number %>&text=Hey%2C%20I%20am%20intrested%20to%20book%20your%20listing%2C%20can%20we%20discuss"><i
-                class="fa-brands fa-whatsapp"></i> Reserve</a>
-            <hr />
-
-            <form class="ratingForm" action="/listing/<%= data._id %>/review" method="post">
-              <h3>Leave A Review</h3>
-              <!-- <input type="range" name="review[rating]" min="1" max="5" required /> -->
-              <fieldset class="starability-coinFlip">
-                <legend>Rating:</legend>
-                <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
-                  aria-label="No rating." />
-                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-                <label for="first-rate1" title="Terrible">1 star</label>
-                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-                <label for="first-rate2" title="Not good">2 stars</label>
-                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-                <label for="first-rate3" title="Average">3 stars</label>
-                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-                <label for="first-rate4" title="Very good">4 stars</label>
-                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-                <label for="first-rate5" title="Amazing">5 stars</label>
-              </fieldset>
-
-              <label for="comment">Comment</label>
-              <textarea name="review[comment]" required rows="4" id="comment"></textarea>
-              <button type="submit" class="ratingSubmit">submit</button>
-            </form>
-            <% } %>
-              <hr />
-              <% if (data.reviews.length> 0) { %>
-                <h2>Reviews</h2>
-                <div class="reviews">
-                  <% data.reviews.forEach(element=> { %>
-                    <div class="review">
-                      <p><b>
-                          <%= element.creator.username %>
-                        </b></p>
-                      <p>
-                        <%= element.comment %>
-                      </p>
-                      <p>Rating: <b>
-                          <%= element.rating %>
-                        </b> stars</p>
-                      <form action="/listing/<%= data._id%>/review/<%= element._id%>?_method=delete" method="post">
-                        <% if(currUser && currUser._id.toString()==element.creator._id.toString()){ %>
-                          <button class="deleteButtton">Delete</button>
-                          <% } %>
-                      </form>
-                    </div>
-                    <% }); %>
-                </div>
-                <% } %>
+    <div class="flex">
+      <a class="edit" href="/listing/<%= data._id %>/edit">edit</a>
+      <br />
+      <form action="/listing/<%= data._id %>?_method=DELETE" method="post">
+        <button class="delete">delete</button>
+      </form>
     </div>
-    <% if(more.length> 1){ %>
-      <hr>
-      <div class="more">
-        <h3>explore more listings form same country</h3>
-        <div class="cards">
-          <% for (const list of more.reverse()) { %>
-            <% if (list._id.toString() !=data._id.toString()) { %>
-              <a class="card-link" href="/listing/<%= list._id %>">
-                <div class="card">
-                  <img class="card-img" src="<%= list.image.url %>" alt="Card image cap" />
-                  <div class="card-body">
-                    <p class="card-text"><b>
-                        <%= list.title %>
-                      </b><br /></p>
-                    <p><b> &#8377;<%= Number(list.price).toLocaleString("en-IN") %></b>/night</p>
-                  </div>
-                </div>
-              </a>
-              <% } %>
-                <% } %>
-        </div>
-        <%}%>
+    <% } %> <% if(currUser){ %>
+    <a
+      target="_blank"
+      class="numberbtn"
+      href="https://api.whatsapp.com/send?phone=91<%= data.owner.number %>&text=Hey%2C%20I%20am%20intrested%20to%20book%20your%20listing%2C%20can%20we%20discuss"
+      ><i class="fa-brands fa-whatsapp"></i> Reserve</a
+    >
+    <hr />
+
+    <form
+      class="ratingForm"
+      action="/listing/<%= data._id %>/review"
+      method="post"
+    >
+      <h3>Leave A Review</h3>
+      <!-- <input type="range" name="review[rating]" min="1" max="5" required /> -->
+      <fieldset class="starability-coinFlip">
+        <legend>Rating:</legend>
+        <input
+          type="radio"
+          id="no-rate"
+          class="input-no-rate"
+          name="review[rating]"
+          value="1"
+          checked
+          aria-label="No rating."
+        />
+        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+        <label for="first-rate1" title="Terrible">1 star</label>
+        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+        <label for="first-rate2" title="Not good">2 stars</label>
+        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+        <label for="first-rate3" title="Average">3 stars</label>
+        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+        <label for="first-rate4" title="Very good">4 stars</label>
+        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+        <label for="first-rate5" title="Amazing">5 stars</label>
+      </fieldset>
+
+      <label for="comment">Comment</label>
+      <textarea
+        name="review[comment]"
+        required
+        rows="4"
+        id="comment"
+      ></textarea>
+      <button type="submit" class="ratingSubmit">submit</button>
+    </form>
+    <% } %>
+    <hr />
+    <% if (data.reviews.length> 0) { %>
+    <h2>Reviews</h2>
+    <div class="reviews">
+      <% data.reviews.forEach(element=> { %>
+      <div class="review">
+        <p><b> <%= element.creator.username %> </b></p>
+        <p><%= element.comment %></p>
+        <p>Rating: <b> <%= element.rating %> </b> stars</p>
+        <form
+          action="/listing/<%= data._id%>/review/<%= element._id%>?_method=delete"
+          method="post"
+        >
+          <% if(currUser &&
+          currUser._id.toString()==element.creator._id.toString()){ %>
+          <button class="deleteButtton">Delete</button>
+          <% } %>
+        </form>
       </div>
-      <script src="/script/navHider.js"></script>
-  </body>
+      <% }); %>
+    </div>
+    <% } %>
+  </div>
+  <% if(more.length> 1){ %>
+  <hr />
+  <div class="more">
+    <h3>explore more listings form same country</h3>
+    <div class="cards">
+      <% for (const list of more.reverse()) { %> <% if (list._id.toString()
+      !=data._id.toString()) { %>
+      <a class="card-link" href="/listing/<%= list._id %>">
+        <div class="card">
+          <img
+            class="card-img"
+            src="<%= list.image.url %>"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <b> <%= list.location %>, <%= list.country %> </b><br />
+            <p><%= list.title %></p>
+            <p>
+              <b> &#8377;<%= Number(list.price).toLocaleString("en-IN") %></b
+              >/night
+            </p>
+          </div>
+        </div>
+      </a>
+      <% } %> <% } %>
+    </div>
+    <%}%>
+  </div>
+  <script src="/script/navHider.js"></script>
+</body>
