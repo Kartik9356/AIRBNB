@@ -45,8 +45,12 @@
             <div class="card">
               <img class="card-img" src="${list.image.url}" alt="Card image cap" />
               <div class="card-body">
-                <p class="card-text"><b>${list.title}</b><br /></p>
-                <p><b> &#8377;${Number(list.price).toLocaleString("en-IN")}</b>/night</p>
+                <p class="card-text"><b> ${ list.location}, ${ list.country }</b><br /></p>
+                <p>${list.title}</p>
+                <p>
+                  <b> &#8377; ${ Number(list.price).toLocaleString("en-IN") } </b
+                  >/night <i class="gst">+ 18% gst</i>
+                </p>
               </div>
             </div>
           `;
