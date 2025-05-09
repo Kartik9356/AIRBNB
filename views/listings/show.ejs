@@ -157,13 +157,14 @@
         <button class="delete">delete</button>
       </form>
     </div>
-    <% } %> <% if(currUser){ %>
+    <% } %> 
     <a
       target="_blank"
       class="numberbtn"
       href="https://api.whatsapp.com/send?phone=91<%= data.owner.number %>&text=Hey%2C%20I%20am%20intrested%20to%20book%20your%20listing%2C%20can%20we%20discuss"
       ><i class="fa-brands fa-whatsapp"></i> Reserve</a
     >
+    <% if(currUser){ %>
     <hr />
 
     <form
