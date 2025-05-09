@@ -4,10 +4,12 @@
   font-family: "Roboto";
 }
 
+.container{
+    min-height: 78vh;
+}
 .container,
 .sucess-popup,
 .error-popup {
-  min-height: 78vh;
   margin: auto;
   width: 90%;
   position: relative;

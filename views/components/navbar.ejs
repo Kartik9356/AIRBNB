@@ -68,7 +68,7 @@
     display: none;
   }
   .fa-bars,
-  .fa-xmark {
+  .fa-xmark-main {
     font-size: 1.7rem;
     padding: 10px;
     border-radius: 5px;
@@ -85,7 +85,7 @@
     }
   }
 
-  .fa-xmark {
+  .fa-xmark-main {
     position: absolute;
     top: 0px;
     right: 0px;
@@ -113,7 +113,7 @@
     document.querySelector(".fa-bars").addEventListener("click", (e) => {
       document.querySelector(".navItems").style.width = "70%";
     });
-    document.querySelector(".fa-xmark").addEventListener("click", (e) => {
+    document.querySelector(".fa-xmark-main").addEventListener("click", (e) => {
       document.querySelector(".navItems").style.width = "0%";
     });
   });
@@ -136,7 +136,7 @@
     <% } %>
   </div>
   <div class="navItems hide">
-    <i class="fa-solid fa-xmark"></i>
+    <i class="fa-solid fa-xmark fa-xmark-main"></i>
     <div class="items">
       <a class="nav-item" href="/listing/create">Add New Listing</a>
       <% if(!currUser){ %>

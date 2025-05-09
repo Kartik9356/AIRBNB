@@ -2,6 +2,7 @@ const listing = require("../models/listing.js");
 const review = require("../models/review.js");
 const user = require("../models/user.js");
 const expressError = require("../utils/expressError.js");
+const {cloudinary,storage} = require("../cloudConflig.js")
 
 module.exports.showListings = async (req, res, next) => {
   let data = await listing.find({});
